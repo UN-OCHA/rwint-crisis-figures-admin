@@ -1,0 +1,31 @@
+@import './themes';
+
+@mixin nb-overrides() {
+  nb-select.size-medium button {
+    padding: 0.4375rem 2.2rem 0.4375rem 1.125rem !important;
+
+    nb-icon {
+      right: 0.41rem !important;
+    }
+  }
+
+  button[nbButton].tiny > nb-icon {
+    font-size: 1rem;
+  }
+
+  button[nbButton].size-small > nb-icon {
+    font-size: 1.25rem;
+  }
+
+  button[nbButton].size-medium > nb-icon {
+    font-size: 1.75rem;
+  }
+
+  button[nbButton].size-large > nb-icon {
+    font-size: 2rem;
+  }
+
+  button[nbButton].size-giant > nb-icon {
+    font-size: 2.5rem;
+  }
+}
