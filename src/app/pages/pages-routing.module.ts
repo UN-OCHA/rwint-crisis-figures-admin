@@ -6,7 +6,13 @@ import { PagesComponent } from './pages.component';
 const routes: Routes = [{
   path: '',
   component: PagesComponent,
-  children: [],
+  children: [
+    {
+      path: 'entities',
+      loadChildren: () => import('./entities/entities.module')
+        .then(m => m.EntitiesModule),
+    },
+  ],
 }];
 
 @NgModule({
