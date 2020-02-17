@@ -11,6 +11,9 @@ import {
   SeoService,
   StateService,
 } from './utils';
+import {
+  SerializerService,
+} from './api';
 
 const socialLinks = [
   {
@@ -77,6 +80,8 @@ export const NB_CORE_PROVIDERS = [
   LayoutService,
   SeoService,
   StateService,
+  // API Services
+  SerializerService,
 ];
 
 @NgModule({
