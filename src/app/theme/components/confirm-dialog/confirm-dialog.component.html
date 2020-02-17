@@ -1,0 +1,18 @@
+<nb-card>
+  <nb-card-header>{{ title }}</nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-12">
+        {{ content }}
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer class="d-flex flex-row">
+    <button nbButton type="button" status="{{ settings?.dismissStyle || 'info' }}" (click)="onDismiss()">
+      {{ settings?.dismissText || 'Cancel' }}
+    </button>
+    <button nbButton type="button" status="{{ settings?.confirmStyle || 'danger' }}" class="ml-auto" (click)="onConfirm()">
+      {{ settings?.confirmText || 'Confirm' }}
+    </button>
+  </nb-card-footer>
+</nb-card>

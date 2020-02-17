@@ -8,6 +8,7 @@ import {
   NbSidebarModule,
   NbUserModule,
   NbContextMenuModule,
+  NbCardModule,
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
@@ -37,6 +38,7 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -46,6 +48,7 @@ const NB_MODULES = [
   NbSearchModule,
   NbSidebarModule,
   NbContextMenuModule,
+  NbCardModule,
   NbSecurityModule,
   NbButtonModule,
   NbSelectModule,
@@ -59,6 +62,7 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  ConfirmDialogComponent,
 ];
 const PIPES = [
   CapitalizePipe,
@@ -67,11 +71,15 @@ const PIPES = [
   TimingPipe,
   NumberWithCommasPipe,
 ];
+const ENTRY = [
+  ConfirmDialogComponent,
+];
 
 @NgModule({
   imports: [CommonModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
+  entryComponents: [...ENTRY],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {
