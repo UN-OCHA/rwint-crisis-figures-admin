@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
+import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 
 const routes: Routes = [{
   path: '',
@@ -11,6 +12,15 @@ const routes: Routes = [{
       path: 'entities',
       loadChildren: () => import('./entities/entities.module')
         .then(m => m.EntitiesModule),
+    },
+    {
+      path: '',
+      redirectTo: 'entities/countries',
+      pathMatch: 'full',
+    },
+    {
+      path: '**',
+      component: NotFoundComponent,
     },
   ],
 }];
