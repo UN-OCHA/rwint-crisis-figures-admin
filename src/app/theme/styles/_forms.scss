@@ -1,0 +1,9 @@
+@import './themes';
+
+@mixin nb-forms() {
+  input {
+    &.ng-dirty.ng-invalid, &.ng-touched.ng-invalid {
+      border-color: red;
+    }
+  }
+}

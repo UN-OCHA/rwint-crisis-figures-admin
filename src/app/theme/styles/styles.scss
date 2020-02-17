@@ -16,6 +16,7 @@
 @import './pace.theme';
 
 @import './layout';
+@import './forms';
 @import './overrides';
 
 // ngx-dataTable styles
@@ -35,4 +36,5 @@
   @include ngx-pace-theme();
 
   @include nb-overrides();
+  @include nb-forms();
 };
