@@ -15,6 +15,7 @@ import {
   RequestProcessorService,
   SerializerService,
   BodyExtractorService,
+  CountryService,
 } from './api';
 
 const socialLinks = [
@@ -86,6 +87,7 @@ export const NB_CORE_PROVIDERS = [
   RequestProcessorService,
   SerializerService,
   BodyExtractorService,
+  CountryService,
 ];
 
 @NgModule({
