@@ -12,6 +12,7 @@ import {
   StateService,
 } from './utils';
 import {
+  RequestProcessorService,
   SerializerService,
   BodyExtractorService,
 } from './api';
@@ -82,6 +83,7 @@ export const NB_CORE_PROVIDERS = [
   SeoService,
   StateService,
   // API Services
+  RequestProcessorService,
   SerializerService,
   BodyExtractorService,
 ];
