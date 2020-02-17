@@ -13,6 +13,7 @@ import {
 } from './utils';
 import {
   SerializerService,
+  BodyExtractorService,
 } from './api';
 
 const socialLinks = [
@@ -82,6 +83,7 @@ export const NB_CORE_PROVIDERS = [
   StateService,
   // API Services
   SerializerService,
+  BodyExtractorService,
 ];
 
 @NgModule({
