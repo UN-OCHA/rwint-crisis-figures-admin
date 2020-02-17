@@ -9,7 +9,12 @@
       ],
       "@nebular/*": [
         "../node_modules/@nebular/*"
-      ]
+      ],
+      "@env/*": ["environments/*"],
+      "@assets/*": ["assets/*"],
+      "@pages/*": ["app/pages/*"],
+      "@core/*": ["app/core/*"],
+      "@theme/*": ["app/theme/*"]
     },
     "allowSyntheticDefaultImports": true
   },
