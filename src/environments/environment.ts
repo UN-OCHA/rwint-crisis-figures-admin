@@ -10,4 +10,14 @@
 
 export const environment = {
   production: false,
+  // API
+  api: {
+    baseUrl: 'https://localhost:8443',
+    defaultHeaders: {
+      'Content-Type': 'application/ld+json',
+    },
+    pagination: {
+      pageSize: 30,
+    },
+  },
 };
