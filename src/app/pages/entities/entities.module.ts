@@ -13,6 +13,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ThemeModule } from '@theme/theme.module';
 import { EntitiesRoutingModule, routedComponents } from './entities-routing.module';
 import { CountriesListComponent } from './countries-list/countries-list.component';
+import { CountriesFormComponent } from './countries-form/countries-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -33,9 +34,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     ...routedComponents,
     CountriesListComponent,
+    CountriesFormComponent,
   ],
   entryComponents: [
     CountriesListComponent,
+    CountriesFormComponent,
   ],
 })
 export class EntitiesModule { }
