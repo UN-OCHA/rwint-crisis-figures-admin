@@ -24,6 +24,7 @@ $ npm install
 ```shell script
 $ npm start
 ```
+Then, open your browser on http://localhost:4200.
 
 ### Production build
 ```shell script
