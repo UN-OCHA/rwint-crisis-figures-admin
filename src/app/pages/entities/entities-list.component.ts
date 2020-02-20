@@ -1,4 +1,4 @@
-import { Injector, OnInit, TemplateRef, Type } from '@angular/core';
+import { Injector, OnInit, Type } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -6,9 +6,10 @@ import { Pagination } from '@core/api/services/response-context';
 import { BaseEntityService } from '@core/api/services/base-entity.service';
 import { Entity } from '@core/api/entities/entity';
 import { ConfirmDialogComponent } from '@theme/components/confirm-dialog/confirm-dialog.component';
-import { Observable } from 'rxjs';
+import { EntityConstructor } from '@core/api/types';
 
 export abstract class EntitiesListComponent<T extends Entity> implements OnInit {
+
   // Dependencies
   protected dialogService: NbDialogService;
   protected toastr: NbToastrService;
@@ -64,11 +65,21 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
 
   /**
    * Display the entity's add/edit form in a modal dialog.
-   * The provided `entity` argument is passed to the dialog component.
    *
-   * @param dialogComponent
+   * If the optional `entity` argument is provided, as in the case of editing
+   * an entity, it gets passed to the dialog component in the form of an
+   * identifier name/value pair.
+   *
+   * In the case of creating a new entity, the entity constructor is used to
+   * create a dummy entity in order to extract the `identifierProperty` name.
+   *
+   * @param entity Entity
    */
   showEntityForm(entity?: Entity) {
+    if (!entity) {
+      entity = new (this.getEntityConstructor());
+    }
+
     this.dialogService
       .open(this.entityFormComponent, {
         context: {
@@ -90,10 +101,10 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
    */
   deleteEntity(entity: Entity) {
     this.entityService.delete(entity).subscribe(() => {
-      this.toastr.success('Entity deleted successfully.');
+      this.toastr.success('Entity deleted successfully.', 'Success');
       this.loadList();
     }, error => {
-      this.toastr.danger('An error occurred while attempting to delete the entity.');
+      this.toastr.danger('An error occurred while attempting to delete the entity.', 'Error');
     });
   }
 
@@ -114,4 +125,8 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
       }
     });
   }
+
+  // // //  Abstracts
+
+  abstract getEntityConstructor(): EntityConstructor<T>;
 }
