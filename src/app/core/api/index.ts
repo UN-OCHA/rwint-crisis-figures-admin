@@ -2,10 +2,12 @@ import { RequestProcessorService } from '@core/api/services/request-processor.se
 import { SerializerService } from './services/serializer.service';
 import { BodyExtractorService } from './services/body-extractor.service';
 import { CountryService } from './services/country.service';
+import { IndicatorService } from './services/indicator.service';
 
 export {
   RequestProcessorService,
   SerializerService,
   BodyExtractorService,
   CountryService,
+  IndicatorService,
 };
