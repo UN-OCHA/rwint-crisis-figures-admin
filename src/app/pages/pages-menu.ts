@@ -7,4 +7,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/entities/countries',
     home: true,
   },
+  {
+    title: 'Indicators',
+    icon: 'activity-outline',
+    link: '/pages/entities/indicators',
+    home: true,
+  },
 ];

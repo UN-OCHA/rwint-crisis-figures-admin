@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { EntitiesComponent } from './entities.component';
 import { CountriesListComponent } from './countries-list/countries-list.component';
+import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
 import { NotFoundComponent } from '@pages/miscellaneous/not-found/not-found.component';
 
 const routes: Routes = [{
@@ -12,6 +13,10 @@ const routes: Routes = [{
     {
       path: 'countries',
       component: CountriesListComponent,
+    },
+    {
+      path: 'indicators',
+      component: IndicatorsListComponent,
     },
   ],
 }];
