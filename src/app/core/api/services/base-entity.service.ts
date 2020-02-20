@@ -1,20 +1,20 @@
 import { Injector } from '@angular/core';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import { environment } from '@env/environment';
 import { SerializerService } from '@core/api/services/serializer.service';
 import { RequestProcessorService } from '@core/api/services/request-processor.service';
 import { ResponseContext } from '@core/api/services/response-context';
-import { EntityConstructor } from '@core/api/types';
+import { AutocompleteSearchDelegate, EntityConstructor } from '@core/api/types';
 import { Entity } from '@core/api/entities/entity';
-import { filter } from 'rxjs/operators';
 
 /**
  * Base class of all entity services.
  */
-export abstract class BaseEntityService<T extends Entity> {
+export abstract class BaseEntityService<T extends Entity> implements AutocompleteSearchDelegate<T> {
   // // //  Dependencies
   protected http: HttpClient;
   protected requestProcessor: RequestProcessorService;
@@ -24,6 +24,8 @@ export abstract class BaseEntityService<T extends Entity> {
   protected baseUrl = environment.api.baseUrl;
   protected entityPluralName: string;
   protected entityConstructor: EntityConstructor<T>;
+  /** The entity property to primarily use in search operations such as auto-complete fields. */
+  protected primarySearchProperty: string;
 
   /** Constructor */
   protected constructor(injector: Injector) {
@@ -127,5 +129,27 @@ export abstract class BaseEntityService<T extends Entity> {
   protected getRequestHeaders(): HttpHeaders {
     const headers = new HttpHeaders({...environment.api.defaultHeaders});
     return headers;
+  }
+
+  // // //  AutocompleteSearchDelegate implementation
+
+  /** @override */
+  acSearch(text$: Observable<string>): Observable<readonly T[]> {
+    if (this.primarySearchProperty) {
+      const filters = new HttpParams();
+      return text$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        filter(term => term.length >= 2),
+        switchMap(term =>
+          this.list(filters.set(this.primarySearchProperty, term)).pipe(
+            map(responseContext => responseContext.body),
+          ),
+        ),
+      );
+    } else {
+      // Did you forget to set the (primarySearchProperty) in the target entity service?
+      throw throwError('Entity does not support auto-complete.');
+    }
   }
 }

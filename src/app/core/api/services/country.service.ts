@@ -5,6 +5,9 @@ import { Country } from '@core/api/entities/country';
 @Injectable()
 export class CountryService extends BaseEntityService<Country> {
 
+  /** @override */
+  primarySearchProperty = 'name';
+
   /** Constructor */
   constructor(private injector: Injector) {
     super(injector);
