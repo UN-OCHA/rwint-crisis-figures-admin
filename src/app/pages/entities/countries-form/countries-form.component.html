@@ -7,8 +7,9 @@
           <div class="form-group">
             <label for="code" class="label">Code</label>
             <input nbInput id="code" type="text" formControlName="code" class="form-control"
+                   fullWidth required
                    [ngClass]="{'is-invalid': (code.touched || code.dirty) && code.invalid}"
-                   fullWidth required />
+            />
             <div *ngIf="code.errors?.required" class="invalid-feedback">Required.</div>
           </div>
         </div>
@@ -16,8 +17,9 @@
           <div class="form-group">
             <label for="name" class="label">Name</label>
             <input nbInput id="name" type="text" formControlName="name" class="form-control"
+                   fullWidth required
                    [ngClass]="{'is-invalid': (name.touched || name.dirty) && name.invalid}"
-                   fullWidth required />
+            />
             <div *ngIf="name.errors?.required" class="invalid-feedback">Required.</div>
           </div>
         </div>
