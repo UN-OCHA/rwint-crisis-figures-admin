@@ -1,7 +1,7 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Injector, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { EntitiesFormComponent } from '@pages/entities/entities-form.component';
+import { EntitiesFormComponent, FormMode } from '@pages/entities/entities-form.component';
 import { Country } from '@core/api/entities/country';
 import { CountryService } from '@core/api';
 
@@ -10,7 +10,8 @@ import { CountryService } from '@core/api';
   templateUrl: './countries-form.component.html',
   styleUrls: ['./countries-form.component.scss'],
 })
-export class CountriesFormComponent extends EntitiesFormComponent<Country> implements OnInit {
+export class CountriesFormComponent extends EntitiesFormComponent<Country>
+  implements OnInit {
 
   /** Constructor */
   constructor(protected injector: Injector,
@@ -21,7 +22,7 @@ export class CountriesFormComponent extends EntitiesFormComponent<Country> imple
 
     // Build entity form
     this.entityForm = this.formBuilder.group({
-      'id': [''],
+      'id': [null],
       'code': ['', Validators.required],
       'name': ['', Validators.required],
     });
@@ -39,6 +40,18 @@ export class CountriesFormComponent extends EntitiesFormComponent<Country> imple
   }
   get name() {
     return this.entityForm.get('name');
+  }
+
+  // // //
+
+  protected populateForm(entity: Country) {
+    super.populateForm(entity);
+
+    setTimeout(() => {
+      if (this.formMode === FormMode.UPDATE) {
+        this.code.disable();
+      }
+    });
   }
 
   // // //   Event handlers
