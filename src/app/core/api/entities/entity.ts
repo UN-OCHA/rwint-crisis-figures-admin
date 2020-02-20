@@ -3,11 +3,17 @@
  * Base entity.
  */
 export abstract class Entity {
+  static PLURAL_NAME: string;
+
   /** Unique identifier */
   id: number = undefined;
 
+  getPluralName(): string {
+    return (<typeof Entity> this.constructor).PLURAL_NAME;
+  }
+
   /**
-   * Get the name of the property that identifies the enitity type.
+   * Get the name of the property that identifies the entity type.
    *
    * @return string
    */

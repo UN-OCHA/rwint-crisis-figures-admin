@@ -6,6 +6,8 @@ import { Entity } from '@core/api/entities/entity';
  */
 @JsonObject('Country')
 export class Country extends Entity {
+  static PLURAL_NAME: string = 'countries';
+
   @JsonProperty('id') // Type can be ignored or set to `Any` for optional properties.
   id: number = undefined;
 
