@@ -27,7 +27,10 @@
     </nb-card-body>
     <nb-card-footer class="d-flex flex-row">
       <button nbButton status="danger" type="button" (click)="onDialogDismiss()">Cancel</button>
-      <button nbButton status="primary" type="submit" class="ml-auto" [disabled]="!entityForm.valid">Save</button>
+      <button nbButton status="primary" type="submit" class="ml-auto"
+              [disabled]="!(entityForm.valid && entityForm.dirty)">
+        Save
+      </button>
     </nb-card-footer>
   </nb-card>
 </form>
