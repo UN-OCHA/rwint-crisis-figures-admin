@@ -11,7 +11,7 @@ export class CountryService extends BaseEntityService<Country> {
   /** Constructor */
   constructor(private injector: Injector) {
     super(injector);
-    this.entityPluralName = 'countries';
+    this.entityPluralName = Country.PLURAL_NAME;
     this.entityConstructor = Country;
   }
 }

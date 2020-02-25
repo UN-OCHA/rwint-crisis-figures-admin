@@ -8,7 +8,7 @@ export class IndicatorService extends BaseEntityService<Indicator> {
   /** Constructor */
   constructor(private injector: Injector) {
     super(injector);
-    this.entityPluralName = 'indicators';
+    this.entityPluralName = Indicator.PLURAL_NAME;
     this.entityConstructor = Indicator;
   }
 }
