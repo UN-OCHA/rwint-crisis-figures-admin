@@ -21,10 +21,6 @@ export class Indicator extends Entity {
   @JsonProperty('country', Any)
   country: Country = undefined;
 
-  // protected getPluralName(): string {
-  //   return Indicator.pluralName;
-  // }
-
   /** @override */
   toString(): string {
     return this.name;
