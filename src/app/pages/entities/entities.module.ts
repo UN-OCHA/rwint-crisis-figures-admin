@@ -17,6 +17,7 @@ import { CountriesListComponent } from './countries-list/countries-list.componen
 import { CountriesFormComponent } from './countries-form/countries-form.component';
 import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
 import { IndicatorsFormComponent } from './indicators-form/indicators-form.component';
+import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -41,12 +42,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     CountriesFormComponent,
     IndicatorsListComponent,
     IndicatorsFormComponent,
+    IndicatorValuesListComponent,
   ],
   entryComponents: [
     CountriesListComponent,
     CountriesFormComponent,
     IndicatorsListComponent,
     IndicatorsFormComponent,
+    IndicatorValuesListComponent,
   ],
 })
 export class EntitiesModule { }
