@@ -1,4 +1,4 @@
-import { Any, JsonObject, JsonProperty } from 'json2typescript';
+import { JsonObject, JsonProperty } from 'json2typescript';
 import { Entity } from '@core/api/entities/entity';
 import { Indicator } from '@core/api/entities/indicator';
 
@@ -13,7 +13,7 @@ export class IndicatorValue extends Entity {
   id: number = undefined;
 
   @JsonProperty('value', Number)
-  value: number = undefined;
+  value: number | string = undefined;
 
   @JsonProperty('date', String)
   date: string = undefined;
