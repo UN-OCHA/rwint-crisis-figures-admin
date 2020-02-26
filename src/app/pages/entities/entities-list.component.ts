@@ -54,13 +54,26 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
    */
   protected loadList() {
     this.entityService.list(this.filters).subscribe(responseContext => {
-      this.rows = responseContext.body;
+      this.rows = this.preprocessList(responseContext.body);
 
       // Copy pagination properties and adjust offset for UI use
       this.pagination.totalItems = responseContext.pagination.totalItems;
       this.pagination.pageSize = responseContext.pagination.pageSize;
       this.pagination.offset = responseContext.pagination.offset - 1;
     });
+  }
+
+  /**
+   * A hook for subclasses to manipulate the list of entities before rendering
+   * it by the UI.
+   *
+   * This default implementation returns the list without modifications.
+   *
+   * @param list
+   * @return The modified list
+   */
+  protected preprocessList(list: T[]): T[] {
+    return list;
   }
 
   /**
