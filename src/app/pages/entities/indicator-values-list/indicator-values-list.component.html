@@ -40,7 +40,11 @@
       <ngx-datatable-column name="Id"></ngx-datatable-column>
       <ngx-datatable-column name="Value"></ngx-datatable-column>
       <ngx-datatable-column name="Date"></ngx-datatable-column>
-      <ngx-datatable-column name="Source URL"></ngx-datatable-column>
+      <ngx-datatable-column name="Source URL">
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          <a href="{{value}}" target="_blank">{{value}}</a>
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column name="Indicator"></ngx-datatable-column>
 
       <ngx-datatable-column

@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import moment from 'moment';
 import { IndicatorValueService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { IndicatorValue } from '@core/api/entities/indicator-value';
@@ -22,6 +23,17 @@ export class IndicatorValuesListComponent extends EntitiesListComponent<Indicato
   /** @override */
   ngOnInit(): void {
     super.ngOnInit();
+  }
+
+  /** @override */
+  protected preprocessList(list: IndicatorValue[]): IndicatorValue[] {
+    return super.preprocessList(list).map(indicatorValue => {
+      // Add commas to numerical value
+      indicatorValue.value = indicatorValue.value.toLocaleString();
+      // Format date for display in listings
+      indicatorValue.date = moment(indicatorValue.date).format('YYYY-MM-DD');
+      return indicatorValue;
+    });
   }
 
   getEntityConstructor(): EntityConstructor<IndicatorValue> {
