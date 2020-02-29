@@ -1,4 +1,4 @@
-import { JsonObject, JsonProperty } from 'json2typescript';
+import { JsonObject, JsonProperty, Any } from 'json2typescript';
 import { Entity } from '@core/api/entities/entity';
 import { Indicator } from '@core/api/entities/indicator';
 
@@ -9,19 +9,19 @@ import { Indicator } from '@core/api/entities/indicator';
 export class IndicatorValue extends Entity {
   static PLURAL_NAME = 'values';
 
-  @JsonProperty('id') // Type can be ignored or set to `Any` for optional properties.
+  @JsonProperty('id', Any, true) // Type can be ignored or set to `Any` for optional properties.
   id: number = undefined;
 
   @JsonProperty('value', Number)
   value: number | string = undefined;
 
   @JsonProperty('date', String)
-  date: string = undefined;
+  date: string | Date = undefined;
 
   @JsonProperty('sourceUrl', String)
   sourceUrl: string = undefined;
 
-  @JsonProperty('indicator', Indicator, true) // Optional property
+  @JsonProperty('indicator', Any, true) // Optional property
   indicator: Indicator = undefined;
 
   /** @override */
