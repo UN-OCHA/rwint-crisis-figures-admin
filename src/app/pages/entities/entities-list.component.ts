@@ -1,5 +1,8 @@
-import { Injector, OnInit, Type } from '@angular/core';
+import { Injector, OnDestroy, OnInit, Type } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription, forkJoin } from 'rxjs';
+import intersection from 'lodash/intersection';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Pagination } from '@core/api/services/response-context';
@@ -8,31 +11,67 @@ import { Entity } from '@core/api/entities/entity';
 import { ConfirmDialogComponent } from '@theme/components/confirm-dialog/confirm-dialog.component';
 import { EntityConstructor } from '@core/api/types';
 
-export abstract class EntitiesListComponent<T extends Entity> implements OnInit {
+export abstract class EntitiesListComponent<T extends Entity> implements OnInit, OnDestroy {
 
   // Dependencies
   protected dialogService: NbDialogService;
   protected toastr: NbToastrService;
   protected entityService: BaseEntityService<T>;
+  protected route: ActivatedRoute;
   protected entityFormComponent: Type<any>;
 
   // Props
   rows: T[] = [];
-  filters: HttpParams = new HttpParams();
+  listRequestParams: HttpParams = new HttpParams();
   pagination: Pagination = new Pagination();
   ColumnMode = ColumnMode;
+  filterEntity: T;
 
   /** Constructor */
   protected constructor(injector: Injector) {
     this.dialogService = injector.get(NbDialogService);
     this.toastr = injector.get(NbToastrService);
+    this.route = injector.get(ActivatedRoute);
   }
 
   /** @override */
   ngOnInit(): void {
+    // Ensure only valid properties (ones that are part of the entity) are assigned to the filtering entity
+    const entity: T = new (this.getEntityConstructor());
+    const commonProps = intersection(Object.keys(this.route.snapshot.queryParams), Object.keys(entity));
+    if (commonProps.length > 0) {
+      commonProps.forEach(prop => entity[prop] = this.route.snapshot.queryParams[prop]);
+    }
+
+    this.setListFilter(entity);
+
     // Submit initial request to fetch entities list by setting
     // pagination offset to the first page.
     this.setListPage({ offset: 0 });
+  }
+
+  /** @override */
+  ngOnDestroy(): void {
+
+  }
+
+  /**
+   * A hook for setting up list filtering UI. This is called when the filtering entity
+   * is created and populated values from the URL.
+   *
+   * @param entity T
+   */
+  protected setListFilter(entity: T) {
+    this.filterEntity = entity;
+    if (this.filterEntity) {
+      Object.keys(this.filterEntity).forEach(prop => {
+        if (this.filterEntity[prop] === undefined || this.filterEntity[prop] === null) {
+          this.listRequestParams = this.listRequestParams.delete(prop);
+        } else {
+          this.listRequestParams = this.listRequestParams.set(prop, this.filterEntity[prop]);
+        }
+      });
+    }
   }
 
   /**
@@ -43,7 +82,7 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
    *               Note that offsets are ZERO-based.
    */
   protected setListPage({offset}) {
-    this.filters = this.filters.set('page', String(offset + 1));
+    this.listRequestParams = this.listRequestParams.set('page', String(offset + 1));
     this.loadList();
   }
 
@@ -53,7 +92,7 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
    * @see setListPage
    */
   protected loadList() {
-    this.entityService.list(this.filters).subscribe(responseContext => {
+    this.entityService.list(this.listRequestParams).subscribe(responseContext => {
       this.rows = this.preprocessList(responseContext.body);
 
       // Copy pagination properties and adjust offset for UI use
@@ -147,6 +186,16 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
         this.deleteEntity(entity);
       }
     });
+  }
+
+  /**
+   * Handle changes to the filtering entity by reloading the list with
+   * updated request parameters.
+   *
+   * @param filterEntity
+   */
+  onFilterEntityChange(filterEntity: T) {
+    // Fixme To be implemented
   }
 
   // // //  Abstracts
