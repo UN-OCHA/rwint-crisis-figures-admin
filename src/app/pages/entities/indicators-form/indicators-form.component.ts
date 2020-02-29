@@ -51,6 +51,9 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
     super.ngOnInit();
   }
 
+  getEntityConstructor() {
+    return Indicator;
+  }
   // // //  Accessors
 
   get name() {
