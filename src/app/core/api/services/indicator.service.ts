@@ -5,6 +5,9 @@ import { Indicator } from '@core/api/entities/indicator';
 @Injectable()
 export class IndicatorService extends BaseEntityService<Indicator> {
 
+  /** @override */
+  primarySearchProperty = 'name';
+
   /** Constructor */
   constructor(private injector: Injector) {
     super(injector);
