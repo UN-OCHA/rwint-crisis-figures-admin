@@ -65,6 +65,19 @@ export class IndicatorValuesListComponent extends EntitiesListComponent<Indicato
     });
   }
 
+  /** @override */
+  protected buildEntityFormDialogContext(entity?: IndicatorValue): any {
+    const context = super.buildEntityFormDialogContext(entity);
+    if (this.indicator) {
+      context.prepopulatedProps = {
+        indicator: this.indicator,
+      };
+    }
+
+    return context;
+  }
+
+  /** @override */
   getEntityConstructor(): EntityConstructor<IndicatorValue> {
     return IndicatorValue;
   }
