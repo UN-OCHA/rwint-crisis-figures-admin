@@ -33,6 +33,10 @@ export class CountriesFormComponent extends EntitiesFormComponent<Country>
     super.ngOnInit();
   }
 
+  getEntityConstructor() {
+    return Country;
+  }
+
   // // //  Accessors
 
   get code() {
