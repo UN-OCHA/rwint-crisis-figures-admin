@@ -21,6 +21,7 @@ export class IndicatorsListComponent extends EntitiesListComponent<Indicator> im
 
   /** @override */
   ngOnInit(): void {
+    this.listRequestParams = this.listRequestParams.set('with[]', 'country');
     super.ngOnInit();
   }
 

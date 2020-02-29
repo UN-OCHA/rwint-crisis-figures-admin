@@ -43,7 +43,11 @@
       <ngx-datatable-column name="Id"></ngx-datatable-column>
       <ngx-datatable-column name="Name"></ngx-datatable-column>
       <ngx-datatable-column name="Organization"></ngx-datatable-column>
-      <ngx-datatable-column name="Country"></ngx-datatable-column>
+      <ngx-datatable-column name="Country">
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ row.country?.name }}
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column
         [width]="50"
