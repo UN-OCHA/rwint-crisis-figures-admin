@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { BaseEntityService } from '@core/api/services/base-entity.service';
 import { Entity } from '@core/api/entities/entity';
-import { AutocompleteFormatDelegate, AutocompleteSearchDelegate } from '@core/api/types';
+import { AutocompleteFormatDelegate, AutocompleteSearchDelegate, EntityConstructor } from '@core/api/types';
 import { isValidEntityId } from '@core/utils/entity.util';
 
 export enum FormMode {
@@ -150,4 +150,8 @@ export abstract class EntitiesFormComponent<T extends Entity>
   acResultFormat(entity: T): string {
     return entity.toString();
   }
+
+  // // //  Abstracts
+
+  abstract getEntityConstructor(): EntityConstructor<T>;
 }
