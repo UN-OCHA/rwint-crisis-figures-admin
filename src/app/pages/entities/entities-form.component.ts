@@ -24,6 +24,9 @@ export abstract class EntitiesFormComponent<T extends Entity>
   /** The actual value of the `identifierProperty` */
   @Input()
   identifierValue?: number | string;
+  /** The entity props to pre-populate the form in the case of FormeMode.CREATE */
+  @Input()
+  prepopulatedProps?: Partial<T>;
 
   // Dependencies
   protected entityService: BaseEntityService<T>;
@@ -42,7 +45,6 @@ export abstract class EntitiesFormComponent<T extends Entity>
   /** Constructor */
   protected constructor(injector: Injector) {
     this.toastr = injector.get(NbToastrService);
-
   }
 
   /** @override */
@@ -52,6 +54,13 @@ export abstract class EntitiesFormComponent<T extends Entity>
       this.loadEntity();
     } else {
       this.formMode = FormMode.CREATE;
+      if (this.prepopulatedProps) {
+        const newEntity = {
+          ...new (this.getEntityConstructor()),
+          ...this.prepopulatedProps,
+        };
+        this.populateForm(newEntity);
+      }
     }
   }
 
