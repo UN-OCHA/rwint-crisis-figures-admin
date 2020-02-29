@@ -48,3 +48,25 @@ export function isValidEntityId(identifier: any): boolean {
   return (isString(identifier) && identifier.length > 0)
       || (isNumber(identifier) && identifier > 0);
 }
+
+/**
+ * Test whether the provided argument is a valid IRI string.
+ *
+ * @param iri
+ * @return Return `true` if the IRI is valid; otherwise; false.
+ */
+export function isIri(iri: any): boolean {
+  return (isString(iri) && iri.length > 0)
+      && (/^\/[a-z]+\/[0-9]+$/.test(iri));
+}
+
+/**
+ * Extract the numeric identifier portion of an IRI string.
+ *
+ * @param iri string
+ * @return The numeric ID, if found, or null.
+ */
+export function idFromIri(iri: string): number | null {
+  const id = parseInt(iri.substring(iri.lastIndexOf('/') + 1), 10);
+  return isFinite(id) ? id : null;
+}
