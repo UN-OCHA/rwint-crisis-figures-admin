@@ -123,8 +123,8 @@ export abstract class EntitiesFormComponent<T extends Entity>
    *
    * @param entity <T>
    */
-  protected populateForm(entity: T) {
-    this.entityForm.setValue(entity);
+  protected populateForm(entity: Partial<T>) {
+    this.entityForm.patchValue(entity);
   }
 
   /**
