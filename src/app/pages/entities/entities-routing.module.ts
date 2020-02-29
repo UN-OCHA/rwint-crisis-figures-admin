@@ -19,7 +19,7 @@ const routes: Routes = [{
       component: IndicatorsListComponent,
     },
     {
-      path: 'indicator-values',
+      path: 'indicators/:id/values',
       component: IndicatorValuesListComponent,
     },
   ],
