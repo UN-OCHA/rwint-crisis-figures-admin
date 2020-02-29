@@ -77,6 +77,24 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
   }
 
   /**
+   * Build the dialog context of the entity form. It can return arbitrary properties
+   * used for rendering and populating the form.
+   *
+   * @param entity
+   * @return An object to populate the dialog context.
+   */
+  protected buildEntityFormDialogContext(entity?: T): any {
+    if (!entity) {
+      entity = new (this.getEntityConstructor());
+    }
+
+    return {
+      identifierProperty: entity && entity.getIdentifierProperty(),
+      identifierValue: entity && entity[entity.getIdentifierProperty()],
+    };
+  }
+
+  /**
    * Display the entity's add/edit form in a modal dialog.
    *
    * If the optional `entity` argument is provided, as in the case of editing
@@ -88,18 +106,10 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit 
    *
    * @param entity Entity
    */
-  showEntityForm(entity?: Entity) {
-    if (!entity) {
-      entity = new (this.getEntityConstructor());
-    }
-
+  showEntityForm(entity?: T) {
+    const context = this.buildEntityFormDialogContext(entity);
     this.dialogService
-      .open(this.entityFormComponent, {
-        context: {
-          identifierProperty: entity && entity.getIdentifierProperty(),
-          identifierValue: entity && entity[entity.getIdentifierProperty()],
-        },
-      })
+      .open(this.entityFormComponent, { context })
       .onClose.subscribe(result => {
         if (result && result.reload === true) {
           this.loadList();
