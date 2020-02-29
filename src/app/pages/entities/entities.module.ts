@@ -18,6 +18,7 @@ import { CountriesFormComponent } from './countries-form/countries-form.componen
 import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
 import { IndicatorsFormComponent } from './indicators-form/indicators-form.component';
 import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
+import { IndicatorValuesListFilterComponent } from './indicator-values-list/indicator-values-list-filter.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorsListComponent,
     IndicatorsFormComponent,
     IndicatorValuesListComponent,
+    IndicatorValuesListFilterComponent,
   ],
   entryComponents: [
     CountriesListComponent,

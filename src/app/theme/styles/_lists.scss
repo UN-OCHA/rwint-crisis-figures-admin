@@ -1,0 +1,10 @@
+@import './themes';
+
+@mixin nb-lists() {
+  .filters-container {
+    border-bottom: nb-theme(card-divider-width) nb-theme(card-divider-style) nb-theme(card-divider-color);
+    margin-bottom: $grid-gutter-width / 2;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}

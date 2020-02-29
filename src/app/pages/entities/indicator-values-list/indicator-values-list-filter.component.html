@@ -1,0 +1,21 @@
+<div *ngIf="indicator" class="row" [ngClass]="indicator ? 'filters-container' : ''">
+  <div class="col-4 pb-4">
+    <label class="label">Indicator (ID: {{ indicator.id }})</label>
+    <div>
+      {{ indicator.name }}
+    </div>
+  </div>
+  <div class="col-4 pb-4">
+    <label class="label">Organization</label>
+    <div>
+      {{ indicator.organization }}
+    </div>
+  </div>
+  <div *ngIf="indicator.country" class="col-4 pb-4">
+    <label class="label">Country</label>
+    <div>
+      {{ indicator.country.name }}
+    </div>
+  </div>
+</div>
+
