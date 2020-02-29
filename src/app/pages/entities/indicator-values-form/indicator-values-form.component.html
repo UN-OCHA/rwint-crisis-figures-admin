@@ -1,0 +1,58 @@
+<form [formGroup]="entityForm" (ngSubmit)="onSubmit($event)">
+  <nb-card>
+    <nb-card-header>{{ identifierValue ? 'Edit' : 'Add' }} Indicator Value</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="date" class="label">Date</label>
+            <input nbInput id="date" formControlName="date" class="form-control"
+                   [ngClass]="{'is-invalid': (date.touched || date.dirty) && date.invalid}"
+                   [nbDatepicker]="datePicker"
+                   fullWidth required
+            />
+            <nb-datepicker #datePicker format="yyyy-MM-dd"></nb-datepicker>
+            <div *ngIf="date.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="sourceUrl" class="label">Source URL</label>
+            <input nbInput id="sourceUrl" formControlName="sourceUrl" type="text" class="form-control"
+                   [ngClass]="{'is-invalid': (sourceUrl.touched || sourceUrl.dirty) && sourceUrl.invalid}"
+                   fullWidth required
+            />
+            <div *ngIf="sourceUrl.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="value" class="label">Value</label>
+            <input nbInput id="value" formControlName="value" type="number" class="form-control"
+                   [ngClass]="{'is-invalid': (value.touched || value.dirty) && value.invalid}"
+                   fullWidth required
+            />
+            <div *ngIf="value.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div *ngIf="indicator.value" class="col-12">
+          <div class="form-group">
+            <label class="label">Indicator (ID: {{ indicator.value.id }})</label>
+            <div>
+              {{ indicator.value.name }} ({{ indicator.value.organization }})
+            </div>
+            <div *ngIf="indicator.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+      </div>
+
+    </nb-card-body>
+    <nb-card-footer class="d-flex flex-row">
+      <button nbButton status="danger" type="button" (click)="onDialogDismiss()">Cancel</button>
+      <button nbButton status="primary" type="submit" class="ml-auto"
+              [disabled]="!(entityForm.valid && entityForm.dirty)">
+        Save
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</form>

@@ -3,12 +3,14 @@ import {
   NbActionsModule,
   NbButtonModule,
   NbCardModule,
+  NbDatepickerModule,
   NbDialogModule,
   NbIconModule,
   NbInputModule,
   NbSelectModule,
   NbTooltipModule,
 } from '@nebular/theme';
+import { NbMomentDateModule } from '@nebular/moment';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from '@theme/theme.module';
@@ -19,6 +21,7 @@ import { IndicatorsListComponent } from './indicators-list/indicators-list.compo
 import { IndicatorsFormComponent } from './indicators-form/indicators-form.component';
 import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
 import { IndicatorValuesListFilterComponent } from './indicator-values-list/indicator-values-list-filter.component';
+import { IndicatorValuesFormComponent } from './indicator-values-form/indicator-values-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -28,6 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NbActionsModule,
     NbButtonModule,
     NbCardModule,
+    NbDatepickerModule,
+    NbMomentDateModule,
     NbDialogModule.forChild(),
     NbIconModule,
     NbInputModule,
@@ -45,6 +50,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorsFormComponent,
     IndicatorValuesListComponent,
     IndicatorValuesListFilterComponent,
+    IndicatorValuesFormComponent,
   ],
   entryComponents: [
     CountriesListComponent,
@@ -52,6 +58,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorsListComponent,
     IndicatorsFormComponent,
     IndicatorValuesListComponent,
+    IndicatorValuesFormComponent,
   ],
 })
 export class EntitiesModule { }
