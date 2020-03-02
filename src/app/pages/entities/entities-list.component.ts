@@ -56,6 +56,18 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit,
   }
 
   /**
+   * A handler of ngx-datatable's `page` event. This is triggered
+   * when the user navigates to another page in the list.
+   *
+   * @param offset The new page number requested by the data table.
+   *               Note that offsets are ZERO-based.
+   */
+  setListPage({offset}) {
+    this.listRequestParams = this.listRequestParams.set('page', String(offset + 1));
+    this.loadList();
+  }
+
+  /**
    * A hook for setting up list filtering UI. This is called when the filtering entity
    * is created and populated values from the URL.
    *
@@ -72,18 +84,6 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit,
         }
       });
     }
-  }
-
-  /**
-   * A handler of ngx-datatable's `page` event. This is triggered
-   * when the user navigates to another page in the list.
-   *
-   * @param offset The new page number requested by the data table.
-   *               Note that offsets are ZERO-based.
-   */
-  protected setListPage({offset}) {
-    this.listRequestParams = this.listRequestParams.set('page', String(offset + 1));
-    this.loadList();
   }
 
   /**
