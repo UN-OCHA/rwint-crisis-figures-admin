@@ -7,24 +7,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 1rem;
+  padding-left: 1rem;
 
-  .socials {
-    font-size: 2rem;
+  .logo-container {
+    display: flex;
+    width: 100%;
 
-    a {
-      padding: 0.4rem;
-      color: nb-theme(text-hint-color);
-      transition: color ease-out 0.1s;
+    img {
+      height: 32px;
 
-      &:hover {
-        color: nb-theme(text-basic-color);
+      &:first-child {
+        margin-right: auto;
       }
     }
+
   }
 
-  @include media-breakpoint-down(is) {
-    .socials {
-      font-size: 1.5rem;
-    }
+  @include media-breakpoint-down(sm) {
+    padding-right: 0;
+    padding-left: 0;
   }
 }
