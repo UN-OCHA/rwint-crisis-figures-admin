@@ -30,6 +30,7 @@
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
+        [sortable]="false"
       >
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <button nbButton ghost title="Edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
@@ -41,10 +42,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Id"></ngx-datatable-column>
-      <ngx-datatable-column name="Name"></ngx-datatable-column>
-      <ngx-datatable-column name="Organization"></ngx-datatable-column>
-      <ngx-datatable-column name="Country">
+      <ngx-datatable-column name="Id" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Name" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Organization" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Country" [sortable]="false">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.country?.name }}
         </ng-template>

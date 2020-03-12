@@ -29,6 +29,7 @@
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
+        [sortable]="false"
       >
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <button nbButton ghost title="edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
@@ -40,15 +41,16 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Id"></ngx-datatable-column>
-      <ngx-datatable-column name="Name"></ngx-datatable-column>
-      <ngx-datatable-column name="Code"></ngx-datatable-column>
+      <ngx-datatable-column name="Id" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Name" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Code" [sortable]="false"></ngx-datatable-column>
 
       <ngx-datatable-column
         [width]="50"
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
+        [sortable]="false"
       >
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <button nbButton ghost title="Delete" size="tiny" status="danger" class="p-0" (click)="onDelete(row)">

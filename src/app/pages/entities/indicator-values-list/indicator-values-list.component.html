@@ -30,6 +30,7 @@
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
+        [sortable]="false"
       >
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <button nbButton ghost title="Edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
@@ -38,10 +39,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Id"></ngx-datatable-column>
-      <ngx-datatable-column name="Value"></ngx-datatable-column>
-      <ngx-datatable-column name="Date"></ngx-datatable-column>
-      <ngx-datatable-column name="Source URL">
+      <ngx-datatable-column name="Id" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Value" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Date" [sortable]="false"></ngx-datatable-column>
+      <ngx-datatable-column name="Source URL" [sortable]="false">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <a href="{{value}}" target="_blank">{{value}}</a>
         </ng-template>
@@ -52,6 +53,7 @@
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
+        [sortable]="false"
       >
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <button nbButton ghost title="Delete" size="tiny" status="danger" class="p-0" (click)="onDelete(row)">
