@@ -8,7 +8,7 @@ describe('IndicatorsFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IndicatorValuesFormComponent ]
+      declarations: [ IndicatorValuesFormComponent ],
     })
     .compileComponents();
   }));
