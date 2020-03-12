@@ -1,8 +1,6 @@
-import { Injector, OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, Type } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { Router, ActivatedRoute, Params, NavigationEnd, ActivationStart } from '@angular/router';
-import { Observable, Subscription, forkJoin } from 'rxjs';
-import intersection from 'lodash/intersection';
+import { ActivatedRoute, Params } from '@angular/router';
 import isArray from 'lodash/isArray';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -12,11 +10,9 @@ import { BaseComponent } from '@pages/entities/base.component';
 import { Entity } from '@core/api/entities/entity';
 import { ConfirmDialogComponent } from '@theme/components/confirm-dialog/confirm-dialog.component';
 import { EntityConstructor } from '@core/api/types';
-import { filter } from 'rxjs/operators';
-import { tap } from 'rxjs/operators';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 
-export abstract class EntitiesListComponent<T extends Entity> extends BaseComponent implements OnInit, OnDestroy {
+@Component({ template: `` })
+export class EntitiesListComponent<T extends Entity> extends BaseComponent implements OnInit, OnDestroy {
 
   // Constants
   static readonly FILTER_KEY_PREFIX = 'flt.';
@@ -37,7 +33,7 @@ export abstract class EntitiesListComponent<T extends Entity> extends BaseCompon
   requiredFilters: Params = {};
 
   /** Constructor */
-  protected constructor(injector: Injector) {
+  constructor(injector: Injector) {
     super(injector);
     this.dialogService = injector.get(NbDialogService);
     this.toastr = injector.get(NbToastrService);
@@ -231,7 +227,12 @@ export abstract class EntitiesListComponent<T extends Entity> extends BaseCompon
     // Fixme To be implemented
   }
 
-  // // //  Abstracts
-
-  abstract getEntityConstructor(): EntityConstructor<T>;
+  /** 
+   * A hook for subclasses to return their EntityConstructor.
+   * 
+   * @return EntityConstructor
+   */
+  getEntityConstructor(): EntityConstructor<T> {
+    throw new Error('This class is missing the implementation of `getEntityConstructor()`.');
+  }
 }
