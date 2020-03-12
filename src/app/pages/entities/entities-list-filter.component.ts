@@ -1,15 +1,18 @@
 import { EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
-import { Entity } from '@core/api/entities/entity';
+import { Params } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
-export abstract class EntitiesListFilterComponent<T extends Entity> implements OnInit {
+/**
+ * Base list filtering component for all entities.
+ */
+export abstract class EntitiesListFilterComponent<T = Params> implements OnInit {
   /** */
   @Input()
-  filterEntity: T;
+  filters: Params;
 
   /** */
   @Output()
-  onChange: EventEmitter<T>;
+  onChange: EventEmitter<Params>;
 
   // // //  Props
   form: FormGroup;
