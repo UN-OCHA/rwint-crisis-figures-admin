@@ -25,7 +25,7 @@
       (page)="setListPage($event)"
     >
       <ngx-datatable-column
-        [width]="50"
+        [width]="90"
         [canAutoResize]="false"
         [draggable]="false"
         [resizeable]="false"
@@ -34,6 +34,9 @@
           <button nbButton ghost title="edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
             <nb-icon icon="edit-outline" pack="eva"></nb-icon>
           </button>
+          <a nbButton ghost title="List Indicators" size="tiny" status="info" class="p-0 ml-2" [routerLink]="'/pages/entities/indicators'" [queryParams]="{'flt.country.code': row.code}">
+            <nb-icon icon="activity-outline" pack="eva"></nb-icon>
+          </a>
         </ng-template>
       </ngx-datatable-column>
 
