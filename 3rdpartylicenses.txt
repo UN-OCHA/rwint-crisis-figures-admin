@@ -473,6 +473,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 nebular-icons
 MIT
 
+ngx-take-until-destroy
+MIT
+
 pace-js
 MIT
 Copyright (c) 2013 HubSpot, Inc.
