@@ -49,6 +49,11 @@
           {{ row.country?.name }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column name="Latest Value" [sortable]="false">
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ (row.values?.length && row.values[0]) ? row.values[0].value : '' }}
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column
         [width]="50"
