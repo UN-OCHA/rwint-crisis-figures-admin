@@ -11,6 +11,7 @@
   </nb-card-header>
 
   <nb-card-body>
+    <ngx-indicators-list-filter [filters]="filters" (onChange)="onFiltersChange($event)"></ngx-indicators-list-filter>
     <ngx-datatable
       class="bootstrap"
       rowHeight="auto"

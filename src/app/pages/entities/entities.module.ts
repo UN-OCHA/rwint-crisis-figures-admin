@@ -19,6 +19,7 @@ import { BaseComponent } from '@pages/entities/base.component';
 import { CountriesListComponent } from './countries-list/countries-list.component';
 import { CountriesFormComponent } from './countries-form/countries-form.component';
 import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
+import { IndicatorsListFilterComponent } from './indicators-list/indicators-list-filter.component';
 import { IndicatorsFormComponent } from './indicators-form/indicators-form.component';
 import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
 import { IndicatorValuesListFilterComponent } from './indicator-values-list/indicator-values-list-filter.component';
@@ -49,6 +50,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CountriesListComponent,
     CountriesFormComponent,
     IndicatorsListComponent,
+    IndicatorsListFilterComponent,
     IndicatorsFormComponent,
     IndicatorValuesListComponent,
     IndicatorValuesListFilterComponent,

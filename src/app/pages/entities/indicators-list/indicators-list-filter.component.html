@@ -1,0 +1,9 @@
+<div *ngIf="filters && filters['country.code']" class="row" ngClass="filters-container">
+  <div *ngIf="country" class="col-4 pb-4">
+    <label class="label">Country</label>
+    <div>
+      {{ country.name }}
+    </div>
+  </div>
+</div>
+
