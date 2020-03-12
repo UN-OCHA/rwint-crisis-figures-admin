@@ -29,15 +29,20 @@ export class IndicatorValuesListComponent extends EntitiesListComponent<Indicato
   }
 
   /** @override */
-  ngOnInit(): void {
+  protected onRouteChange(event): void {
     // Validate route parameter representing Indicator ID and load it
     if (this.route.snapshot.params.id) {
       // Load `Indicator` instance using `id` param
       this.loadIndicator(Number(this.route.snapshot.params.id));
       // Filter list by aforementioned `Indicator` ID
-      this.listRequestParams = this.listRequestParams.set('indicator.id', this.route.snapshot.params.id)
+      this.requiredFilters['indicator.id'] = this.route.snapshot.params.id;
     }
 
+    super.onRouteChange(event);
+  }
+
+  /** @override */
+  ngOnInit(): void {
     super.ngOnInit();
   }
 

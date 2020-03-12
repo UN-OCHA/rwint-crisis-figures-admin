@@ -1,17 +1,25 @@
 import { Injector, OnDestroy, OnInit, Type } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd, ActivationStart } from '@angular/router';
 import { Observable, Subscription, forkJoin } from 'rxjs';
 import intersection from 'lodash/intersection';
+import isArray from 'lodash/isArray';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Pagination } from '@core/api/services/response-context';
 import { BaseEntityService } from '@core/api/services/base-entity.service';
+import { BaseComponent } from '@pages/entities/base.component';
 import { Entity } from '@core/api/entities/entity';
 import { ConfirmDialogComponent } from '@theme/components/confirm-dialog/confirm-dialog.component';
 import { EntityConstructor } from '@core/api/types';
+import { filter } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-export abstract class EntitiesListComponent<T extends Entity> implements OnInit, OnDestroy {
+export abstract class EntitiesListComponent<T extends Entity> extends BaseComponent implements OnInit, OnDestroy {
+
+  // Constants
+  static readonly FILTER_KEY_PREFIX = 'flt.';
 
   // Dependencies
   protected dialogService: NbDialogService;
@@ -22,37 +30,56 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit,
 
   // Props
   rows: T[] = [];
-  listRequestParams: HttpParams = new HttpParams();
+  listRequestParams: HttpParams;
   pagination: Pagination = new Pagination();
   ColumnMode = ColumnMode;
-  filterEntity: T;
+  filters: Params;
+  requiredFilters: Params = {};
 
   /** Constructor */
   protected constructor(injector: Injector) {
+    super(injector);
     this.dialogService = injector.get(NbDialogService);
     this.toastr = injector.get(NbToastrService);
-    this.route = injector.get(ActivatedRoute);
+
+    // Extract filtering properties from route and store them in local filter state
+    this.observeRouteChange();
+  }
+  
+  /** @override */
+  protected onRouteChange(event): void {
+    super.onRouteChange(event);
+
+    const filters = {};
+    Object.entries(this.route.snapshot.queryParams)
+      .filter(([key, val]) => key.startsWith(EntitiesListComponent.FILTER_KEY_PREFIX))
+      .forEach(([key, val]) => filters[String(key).substr(EntitiesListComponent.FILTER_KEY_PREFIX.length)] = val);
+
+    this.updateList(filters);
   }
 
   /** @override */
-  ngOnInit(): void {
-    // Ensure only valid properties (ones that are part of the entity) are assigned to the filtering entity
-    const entity: T = new (this.getEntityConstructor());
-    const commonProps = intersection(Object.keys(this.route.snapshot.queryParams), Object.keys(entity));
-    if (commonProps.length > 0) {
-      commonProps.forEach(prop => entity[prop] = this.route.snapshot.queryParams[prop]);
-    }
+  ngOnInit(): void {}
 
-    this.setListFilter(entity);
+  /** @override */
+  ngOnDestroy(): void {}
+
+  /**
+   * Update list by optionally setting filtering parameters before setting a list page to load.
+   *
+   * @param filters
+   * @param paginator
+   */
+  protected updateList(filters?: Params, paginator?: {offset: number}) {
+    // Reset the request params in order to repopulate them
+    if (filters && filters !== this.filters) {
+      this.listRequestParams = new HttpParams();
+      this.setListFilter(filters);
+    }
 
     // Submit initial request to fetch entities list by setting
     // pagination offset to the first page.
-    this.setListPage({ offset: 0 });
-  }
-
-  /** @override */
-  ngOnDestroy(): void {
-
+    this.setListPage(paginator || { offset: 0 });
   }
 
   /**
@@ -68,22 +95,28 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit,
   }
 
   /**
-   * A hook for setting up list filtering UI. This is called when the filtering entity
-   * is created and populated values from the URL.
+   * Setup list filtering UI with parameters that are created and populated 
+   * with values from the URL.
    *
-   * @param entity T
+   * @param filters
    */
-  protected setListFilter(entity: T) {
-    this.filterEntity = entity;
-    if (this.filterEntity) {
-      Object.keys(this.filterEntity).forEach(prop => {
-        if (this.filterEntity[prop] === undefined || this.filterEntity[prop] === null) {
-          this.listRequestParams = this.listRequestParams.delete(prop);
-        } else {
-          this.listRequestParams = this.listRequestParams.set(prop, this.filterEntity[prop]);
-        }
-      });
-    }
+  protected setListFilter(filters: Params) {
+    // Combine new filters with the required ones
+    this.filters = {
+      ...filters, 
+      ...this.requiredFilters,
+    };
+    
+    // Assign list request parameters from filters
+    Object.entries(this.filters).forEach(([key, val]) => {
+      if (isArray(val)) {
+        val.forEach(multiVal => {
+          this.listRequestParams = this.listRequestParams.append(key, multiVal);
+        });
+      } else {
+        this.listRequestParams = this.listRequestParams.set(key, val);
+      }
+    });
   }
 
   /**
@@ -189,12 +222,12 @@ export abstract class EntitiesListComponent<T extends Entity> implements OnInit,
   }
 
   /**
-   * Handle changes to the filtering entity by reloading the list with
+   * Handle changes to the filtering parameters by reloading the list with
    * updated request parameters.
    *
-   * @param filterEntity
+   * @param filters
    */
-  onFilterEntityChange(filterEntity: T) {
+  onFiltersChange(filters: Params) {
     // Fixme To be implemented
   }
 
