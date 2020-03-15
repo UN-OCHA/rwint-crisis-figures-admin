@@ -14,4 +14,11 @@ export class CountryService extends BaseEntityService<Country> {
     this.entityPluralName = Country.PLURAL_NAME;
     this.entityConstructor = Country;
   }
+
+  /** @override */
+  protected getCacheTtlForUrl(url: string): number {
+    // Cache all, collection and item, country fetch responses for a period long enough
+    // to avoid multiple fetching operations within the same page.
+    return 3;
+  }
 }
