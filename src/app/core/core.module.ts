@@ -2,6 +2,8 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
+import { CacheModule, CACHE } from '@ngx-cache/core';
+import { BrowserCacheModule, MemoryCacheService } from '@ngx-cache/platform-browser';
 import { of as observableOf } from 'rxjs';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
@@ -81,6 +83,15 @@ export const NB_CORE_PROVIDERS = [
   {
     provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
   },
+
+  CacheModule.forRoot().providers,
+  BrowserCacheModule.forRoot([
+    {
+      provide: CACHE,
+      useClass: MemoryCacheService, // or, LocalStorageCacheService
+    },
+  ]).providers,
+
   AnalyticsService,
   LayoutService,
   SeoService,

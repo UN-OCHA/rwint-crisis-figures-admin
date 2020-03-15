@@ -45,6 +45,8 @@
     "@nebular/security": "4.4.0",
     "@nebular/theme": "4.4.0",
     "@ng-bootstrap/ng-bootstrap": "^5.3.0",
+    "@ngx-cache/core": "^8.0.3",
+    "@ngx-cache/platform-browser": "^8.0.1",
     "@swimlane/ngx-datatable": "^16.0.3",
     "angular-tree-component": "7.2.0",
     "angular2-toaster": "^7.0.0",
