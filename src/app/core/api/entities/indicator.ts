@@ -10,7 +10,7 @@ import { IndicatorValue } from './indicator-value';
 export class Indicator extends Entity {
   static PLURAL_NAME = 'indicators';
 
-  @JsonProperty('id') // Type can be ignored or set to `Any` for optional properties.
+  @JsonProperty('id', Any, true) // Type can be ignored or set to `Any` for optional properties.
   id: number = undefined;
 
   @JsonProperty('name', String)
