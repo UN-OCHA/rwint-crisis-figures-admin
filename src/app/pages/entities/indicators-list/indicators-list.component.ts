@@ -1,10 +1,13 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { IndicatorService } from '@core/api';
+import { Params } from '@angular/router';
+import isString from 'lodash/isString';
+import { CountryService, IndicatorService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { Indicator } from '@core/api/entities/indicator';
+import { IndicatorValue } from '@core/api/entities/indicator-value';
+import { Country } from '@core/api/entities/country';
 import { EntitiesListComponent } from '@pages/entities/entities-list.component';
 import { IndicatorsFormComponent } from '@pages/entities/indicators-form/indicators-form.component';
-import { interval } from 'rxjs';
 
 @Component({
   selector: 'ngx-indicators-list',
@@ -19,9 +22,13 @@ export class IndicatorsListComponent extends EntitiesListComponent<Indicator> im
     'preset': 'latest',
   };
 
+  /** Related `Country` instance used in filtering (if any) */
+  country?: Country;
+
   /** Constructor */
   constructor(protected injector: Injector,
-              protected entityService: IndicatorService) {
+              protected entityService: IndicatorService,
+              protected countryService: CountryService) {
     super(injector);
     this.entityFormComponent = IndicatorsFormComponent;
   }
@@ -33,5 +40,42 @@ export class IndicatorsListComponent extends EntitiesListComponent<Indicator> im
 
   getEntityConstructor(): EntityConstructor<Indicator> {
     return Indicator;
+  }
+
+  /** @override */
+  protected setListFilter(filters: Params) {
+    super.setListFilter(filters);
+
+    // Load country instance when filtering by country code
+    if (isString(this.filters['country.code'])) {
+      setTimeout(() => {
+        this.loadCountry(this.filters['country.code']);
+      }, 2000);
+    } else {
+      this.country = null;
+    }
+  }
+
+  /** @override */
+  protected buildEntityFormDialogContext(entity?: Indicator): any {
+    const context = super.buildEntityFormDialogContext(entity);
+    if (this.country) {
+      context.prepopulatedProps = {
+        country: this.country,
+      };
+    }
+
+    return context;
+  }
+
+  /**
+   * Load related `Country` instance.
+   *
+   * @param countryId
+   */
+  protected loadCountry(countryId: number) {
+    this.countryService.one(countryId).subscribe(responseCtx => {
+      this.country = responseCtx.body;
+    });
   }
 }
