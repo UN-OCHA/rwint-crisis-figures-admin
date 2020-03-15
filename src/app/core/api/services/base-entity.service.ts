@@ -1,14 +1,15 @@
 import { Injector } from '@angular/core';
 import { HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { CacheService } from '@ngx-cache/core';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import { environment } from '@env/environment';
 import { SerializerService } from '@core/api/services/serializer.service';
 import { RequestProcessorService } from '@core/api/services/request-processor.service';
 import { ResponseContext } from '@core/api/services/response-context';
-import { AutocompleteSearchDelegate, EntityConstructor } from '@core/api/types';
+import { AutocompleteSearchDelegate, EntityConstructor, RequestOptions } from '@core/api/types';
 import { Entity } from '@core/api/entities/entity';
 
 /**
@@ -19,6 +20,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
   protected http: HttpClient;
   protected requestProcessor: RequestProcessorService;
   protected serializer: SerializerService;
+  protected cache: CacheService;
 
   // // //  Entity-specific props
   protected baseUrl = environment.api.baseUrl;
@@ -32,34 +34,79 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
     this.http = injector.get<HttpClient>(HttpClient);
     this.serializer = injector.get<SerializerService>(SerializerService);
     this.requestProcessor = injector.get<RequestProcessorService>(RequestProcessorService);
+    this.cache = injector.get<CacheService>(CacheService);
   }
 
   /**
    * Fetch a single entity.
+   *
    * @param identifier number|string
    * @param filters? HttpParams
+   * @return Observable<ResponseContext<T>>
    */
-  one(identifier: number | string, filters?: HttpParams): Observable<ResponseContext<T>> {
+  one(identifier: number | string, filters?: HttpParams, options?: RequestOptions): Observable<ResponseContext<T>> {
+    const url = `${this.baseUrl}/${this.entityPluralName}/${identifier}`;
+
+    // The cache TTL can be either set while making the request (via `options`) or
+    // set by the child API service. The former option gets the precedence. The TTL
+    // is used to determine whether are request should be cached; therefore, setting
+    // a TTL of `0` or less disables caching.
+    const cacheTtl = (options && options.cache && options.cache.ttl)
+      ? options.cache.ttl
+      : this.getCacheTtlForUrl(url, 'ONE');
+
+    if ((cacheTtl > 0) && this.isUrlCached(url)) {
+      return this.getCachedResponse(url);
+    }
+
     const request = new HttpRequest<T>('GET', `${this.baseUrl}/${this.entityPluralName}/${identifier}`, null, {
       headers: this.getRequestHeaders(),
       params: filters,
     });
 
-    return this.requestProcessor.dispatch<T>(request, this.entityConstructor);
+    return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
+      tap(responseContext => {
+        if (cacheTtl > 0) {
+          this.cacheResponseContext(responseContext, url, cacheTtl);
+        }
+      }),
+    );
   }
 
   /**
    * Fetch a list of entities.
+   *
    * @param endpoint
    * @param filters? HttpParams
+   * @return Observable<ResponseContext<T[]>>
    */
-  list(filters?: HttpParams): Observable<ResponseContext<T[]>> {
-    const request = new HttpRequest<T>('GET', `${this.baseUrl}/${this.entityPluralName}`, null, {
+  list(filters?: HttpParams, options?: Partial<RequestOptions>): Observable<ResponseContext<T[]>> {
+    const url = `${this.baseUrl}/${this.entityPluralName}`;
+
+    // The cache TTL can be either set while making the request (via `options`) or
+    // set by the child API service. The former option gets the precedence. The TTL
+    // is used to determine whether are request should be cached; therefore, setting
+    // a TTL of `0` or less disables caching.
+    const cacheTtl = (options && options.cache && options.cache.ttl)
+      ? options.cache.ttl
+      : this.getCacheTtlForUrl(url, 'LIST');
+
+    if ((cacheTtl > 0) && this.isUrlCached(url)) {
+      return this.getCachedResponse(url);
+    }
+
+    const request = new HttpRequest<T>('GET', url, null, {
       headers: this.getRequestHeaders(),
       params: filters,
     });
 
-    return this.requestProcessor.dispatch<T>(request, this.entityConstructor);
+    return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
+      tap(responseContext => {
+        if (cacheTtl > 0) {
+          this.cacheResponseContext(responseContext, url, cacheTtl);
+        }
+      }),
+    );
   }
 
   /**
@@ -129,6 +176,56 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
   protected getRequestHeaders(): HttpHeaders {
     const headers = new HttpHeaders({...environment.api.defaultHeaders});
     return headers;
+  }
+
+  /**
+   * Determine whether the response of API requests to `url` should be cached by returning
+   * the amount of time, in seconds, for which the response should live in cache.
+   *
+   * Return `0` in order to disable caching for the given `url` which is the default behaviour.
+   *
+   * @param url The request `url` to verify.
+   * @return The response cache duration (aka TTL).
+   */
+  protected getCacheTtlForUrl(url: string, requestType?: 'LIST' | 'ONE'): number {
+    return 0;
+  }
+
+  /**
+   * Determine whether the response of API requests to `url` is already cached.
+   *
+   * @param url The request `url` to verify.
+   * @return True if response is already cached; otherwise, false.
+   */
+  protected isUrlCached(url: string): boolean {
+    return this.cache.has(url);
+  }
+
+  /**
+   * Return the cached response using `url` as key.
+   *
+   * @param url Caching key of response
+   * @return The cached ResponseContext instance
+   */
+  protected getCachedResponse(url: string): Observable<ResponseContext<T[]>> {
+    const cachedResponse = this.cache.get(url) as ResponseContext<T>;
+
+    if (cachedResponse) {
+      return of(cachedResponse);
+    } else {
+      return throwError(`Response from ${url} is not cached.`);
+    }
+  }
+
+  /**
+   * Cache the provided `responseContext` under given `key`.
+   *
+   * @param responseContext The response context to cache.
+   * @param key The key used to identify cached response.
+   * @param ttl The caching duration of the response
+   */
+  protected cacheResponseContext(responseContext: ResponseContext<T>, key: string, ttl?: number): void {
+    this.cache.set(key, responseContext, 10, { TTL: ttl });
   }
 
   // // //  AutocompleteSearchDelegate implementation

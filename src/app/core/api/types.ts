@@ -1,6 +1,12 @@
 import { ResponseContext } from '@core/api/services/response-context';
 import { Observable } from 'rxjs';
 
+export interface RequestOptions {
+  cache: {
+    ttl: number;
+  };
+}
+
 /** Enity constructor type */
 export interface EntityConstructor<T> {
   new (): T;
