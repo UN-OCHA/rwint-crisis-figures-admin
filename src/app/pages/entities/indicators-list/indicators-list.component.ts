@@ -47,12 +47,17 @@ export class IndicatorsListComponent extends EntitiesListComponent<Indicator> im
     super.setListFilter(filters);
 
     // Load country instance when filtering by country code
+    // First, skip fetching the country if it is already loaded and matches filter prop
+    if (this.country && this.country.code === this.filters['country.code']) {
+      return;
+    }
+
     if (isString(this.filters['country.code'])) {
       setTimeout(() => {
         this.loadCountry(this.filters['country.code']);
       }, 2000);
     } else {
-      this.country = null;
+      this.country = undefined;
     }
   }
 
