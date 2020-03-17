@@ -39,10 +39,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Id" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Value" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Date" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Source URL" [sortable]="false">
+      <ngx-datatable-column name="Id" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Value" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Date" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Source URL" [sortable]="true">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           <a href="{{value}}" target="_blank">{{value}}</a>
         </ng-template>

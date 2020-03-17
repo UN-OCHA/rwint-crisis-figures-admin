@@ -24,6 +24,7 @@
       [offset]="pagination?.offset"
       [limit]="pagination?.pageSize"
       (page)="setListPage($event)"
+      (sort)="onSort($event)"
     >
       <ngx-datatable-column
         [width]="90"
@@ -42,10 +43,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Id" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Name" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Organization" [sortable]="false"></ngx-datatable-column>
-      <ngx-datatable-column name="Country" [sortable]="false">
+      <ngx-datatable-column name="Id" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Name" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Organization" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Country" prop="country.name" [sortable]="true">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.country?.name }}
         </ng-template>

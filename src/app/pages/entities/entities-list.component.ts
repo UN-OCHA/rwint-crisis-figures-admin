@@ -16,6 +16,7 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
 
   // Constants
   static readonly FILTER_KEY_PREFIX = 'flt.';
+  static readonly SORT_KEY = 'srt';
 
   // Dependencies
   protected dialogService: NbDialogService;
@@ -30,6 +31,7 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
   pagination: Pagination = new Pagination();
   ColumnMode = ColumnMode;
   filters: Params;
+  sorts: Params;
   requiredFilters: Params = {};
 
   /** Constructor */
@@ -41,17 +43,28 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
     // Extract filtering properties from route and store them in local filter state
     this.observeRouteChange();
   }
-  
+
   /** @override */
   protected onRouteChange(event): void {
     super.onRouteChange(event);
 
+    // Extract filtering and sorting parameters from URL
     const filters = {};
-    Object.entries(this.route.snapshot.queryParams)
-      .filter(([key, val]) => key.startsWith(EntitiesListComponent.FILTER_KEY_PREFIX))
-      .forEach(([key, val]) => filters[String(key).substr(EntitiesListComponent.FILTER_KEY_PREFIX.length)] = val);
+    const sorts = {};
 
-    this.updateList(filters);
+    Object.entries(this.route.snapshot.queryParams)
+      .forEach(([key, val]) => {
+        if (key.startsWith(EntitiesListComponent.FILTER_KEY_PREFIX)) {
+          filters[String(key).substr(EntitiesListComponent.FILTER_KEY_PREFIX.length)] = val;
+        } else if (key === EntitiesListComponent.SORT_KEY) {
+          const [sortProp, sortDirection] = String(val).split(',');
+          if (sortProp && sortDirection) {
+            sorts[sortProp] = sortDirection;
+          }
+        }
+      });
+
+    this.updateList(filters, sorts);
   }
 
   /** @override */
@@ -66,16 +79,63 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    * @param filters
    * @param paginator
    */
-  protected updateList(filters?: Params, paginator?: {offset: number}) {
+  protected updateList(filters?: Params, sorts?: Params, paginator?: {offset: number}) {
     // Reset the request params in order to repopulate them
-    if (filters && filters !== this.filters) {
+    if (filters || sorts || paginator) {
       this.listRequestParams = new HttpParams();
+    }
+
+    if (filters && filters !== this.filters) {
       this.setListFilter(filters);
+    }
+
+    if (sorts && sorts !== this.sorts) {
+      this.setListSort(sorts);
     }
 
     // Submit initial request to fetch entities list by setting
     // pagination offset to the first page.
     this.setListPage(paginator || { offset: 0 });
+  }
+
+  /**
+   * Setup list filtering UI with parameters that are created and populated
+   * with values from the URL.
+   *
+   * @param filters
+   */
+  protected setListFilter(filters: Params) {
+    // Combine new filters with the required ones
+    this.filters = {
+      ...filters,
+      ...this.requiredFilters,
+    };
+
+    // Assign list request parameters from filters
+    Object.entries(this.filters).forEach(([key, val]) => {
+      if (isArray(val)) {
+        val.forEach(multiVal => {
+          this.listRequestParams = this.listRequestParams.append(key, multiVal);
+        });
+      } else {
+        this.listRequestParams = this.listRequestParams.set(key, val);
+      }
+    });
+  }
+
+  /**
+   * Create request parameters from list sorting properties.
+   *
+   * @param sorts Params {[property: string]: sortDirection}
+   */
+  setListSort(sorts: Params) {
+    // Combine new filters with the required ones
+    this.sorts = { ...sorts };
+
+    // Assign list request parameters from filters
+    Object.entries(this.sorts).forEach(([key, val]) => {
+      this.listRequestParams = this.listRequestParams.set(`order[${key}]`, val);
+    });
   }
 
   /**
@@ -88,31 +148,6 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
   setListPage({offset}) {
     this.listRequestParams = this.listRequestParams.set('page', String(offset + 1));
     this.loadList();
-  }
-
-  /**
-   * Setup list filtering UI with parameters that are created and populated 
-   * with values from the URL.
-   *
-   * @param filters
-   */
-  protected setListFilter(filters: Params) {
-    // Combine new filters with the required ones
-    this.filters = {
-      ...filters, 
-      ...this.requiredFilters,
-    };
-    
-    // Assign list request parameters from filters
-    Object.entries(this.filters).forEach(([key, val]) => {
-      if (isArray(val)) {
-        val.forEach(multiVal => {
-          this.listRequestParams = this.listRequestParams.append(key, multiVal);
-        });
-      } else {
-        this.listRequestParams = this.listRequestParams.set(key, val);
-      }
-    });
   }
 
   /**
@@ -218,6 +253,27 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
   }
 
   /**
+   * A handler of ngx-datatable's `sort` event. This is triggered
+   * when the user taps on a column header for sorting purposes.
+   *
+   * The event results in updating the router's query parameters,
+   * which in turn reloads the page so the list can have the new
+   * sorting properties applied.
+   *
+   * @param event {sorts: [{
+   *   dir: string, // Ordering direction
+   *   prop: string, // Property name of column to be sorted by
+   * }]}
+   */
+  onSort({sorts}) {
+    const {dir, prop} = sorts[0];
+    this.router.navigate([], {
+      queryParams: { [EntitiesListComponent.SORT_KEY]: `${prop},${dir}` },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  /**
    * Handle changes to the filtering parameters by reloading the list with
    * updated request parameters.
    *
@@ -227,9 +283,9 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
     // Fixme To be implemented
   }
 
-  /** 
+  /**
    * A hook for subclasses to return their EntityConstructor.
-   * 
+   *
    * @return EntityConstructor
    */
   getEntityConstructor(): EntityConstructor<T> {
