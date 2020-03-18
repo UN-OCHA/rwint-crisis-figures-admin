@@ -1,0 +1,64 @@
+<nb-card>
+  <nb-card-header>
+    <div class="d-flex flex-row">
+      <div>Vocabularies</div>
+      <div class="ml-auto">
+        <button nbButton ghost title="Add Vocabulary" size="large" status="primary" class="nb-action p-0" (click)="showEntityForm()">
+          <nb-icon icon="plus-circle" pack="eva"></nb-icon>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
+
+  <nb-card-body>
+    <ngx-vocabularies-list-filter [filters]="filters" (onChange)="onFiltersChange($event)"></ngx-vocabularies-list-filter>
+    <ngx-datatable
+      class="bootstrap"
+      rowHeight="auto"
+      [rows]="rows"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [externalPaging]="true"
+      [count]="pagination?.totalItems"
+      [offset]="pagination?.offset"
+      [limit]="pagination?.pageSize"
+      (page)="setListPage($event)"
+      (sort)="onSort($event)"
+    >
+      <ngx-datatable-column
+        [width]="90"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        [sortable]="false"
+      >
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button nbButton ghost title="Edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
+            <nb-icon icon="edit-outline" pack="eva"></nb-icon>
+          </button>
+          <a nbButton ghost title="List Values" size="tiny" status="info" class="p-0 ml-2" [routerLink]="row.id + '/terms'">
+            <nb-icon icon="pricetags-outline" pack="eva"></nb-icon>
+          </a>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Id" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Name" [sortable]="true"></ngx-datatable-column>
+      <ngx-datatable-column name="Label" [sortable]="true"></ngx-datatable-column>
+
+      <ngx-datatable-column
+        [width]="50"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+      >
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button nbButton ghost title="Delete" size="tiny" status="danger" class="p-0" (click)="onDelete(row)">
+            <nb-icon icon="trash-outline" pack="eva"></nb-icon>
+          </button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </nb-card-body>
+</nb-card>

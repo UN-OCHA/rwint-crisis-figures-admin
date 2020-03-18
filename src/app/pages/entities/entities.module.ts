@@ -25,6 +25,9 @@ import { IndicatorsFormComponent } from './indicators-form/indicators-form.compo
 import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
 import { IndicatorValuesListFilterComponent } from './indicator-values-list/indicator-values-list-filter.component';
 import { IndicatorValuesFormComponent } from './indicator-values-form/indicator-values-form.component';
+import { VocabulariesListComponent } from './vocabularies-list/vocabularies-list.component';
+import { VocabulariesListFilterComponent } from './vocabularies-list/vocabularies-list-filter.component';
+import { VocabulariesFormComponent } from './vocabularies-form/vocabularies-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -57,6 +60,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorValuesListComponent,
     IndicatorValuesListFilterComponent,
     IndicatorValuesFormComponent,
+    VocabulariesListComponent,
+    VocabulariesListFilterComponent,
+    VocabulariesFormComponent,
   ],
   entryComponents: [
     CountriesListComponent,
@@ -65,6 +71,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorsFormComponent,
     IndicatorValuesListComponent,
     IndicatorValuesFormComponent,
+    VocabulariesListComponent,
+    VocabulariesFormComponent,
   ],
 })
 export class EntitiesModule { }

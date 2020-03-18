@@ -13,4 +13,10 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/entities/indicators',
     home: true,
   },
+  {
+    title: 'Vocabularies',
+    icon: 'book-open-outline',
+    link: '/pages/entities/vocabularies',
+    home: true,
+  },
 ];

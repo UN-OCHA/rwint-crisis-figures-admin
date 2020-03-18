@@ -4,6 +4,7 @@ import { BodyExtractorService } from './services/body-extractor.service';
 import { CountryService } from './services/country.service';
 import { IndicatorService } from './services/indicator.service';
 import { IndicatorValueService } from './services/indicator-value.service';
+import { VocabularyService } from './services/vocabulary.service';
 
 export {
   RequestProcessorService,
@@ -12,4 +13,5 @@ export {
   CountryService,
   IndicatorService,
   IndicatorValueService,
+  VocabularyService,
 };
