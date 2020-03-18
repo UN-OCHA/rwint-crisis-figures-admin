@@ -1,0 +1,9 @@
+<div *ngIf="vocabulary" class="row" [ngClass]="vocabulary ? 'filters-container' : ''">
+  <div class="col-4 pb-4">
+    <label class="label">Vocabulary (ID: {{ vocabulary.id }})</label>
+    <div>
+      {{ vocabulary.label }}
+    </div>
+  </div>
+</div>
+

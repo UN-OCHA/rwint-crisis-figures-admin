@@ -28,6 +28,10 @@ import { IndicatorValuesFormComponent } from './indicator-values-form/indicator-
 import { VocabulariesListComponent } from './vocabularies-list/vocabularies-list.component';
 import { VocabulariesListFilterComponent } from './vocabularies-list/vocabularies-list-filter.component';
 import { VocabulariesFormComponent } from './vocabularies-form/vocabularies-form.component';
+import { TermsListComponent } from './terms-list/terms-list.component';
+import { TermsListFilterComponent } from './terms-list/terms-list-filter.component';
+import { TermsFormComponent } from './terms-form/terms-form.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -63,6 +67,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     VocabulariesListComponent,
     VocabulariesListFilterComponent,
     VocabulariesFormComponent,
+    TermsListComponent,
+    TermsListFilterComponent,
+    TermsFormComponent,
   ],
   entryComponents: [
     CountriesListComponent,
@@ -73,6 +80,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     IndicatorValuesFormComponent,
     VocabulariesListComponent,
     VocabulariesFormComponent,
+    TermsListComponent,
+    TermsFormComponent,
   ],
 })
 export class EntitiesModule { }

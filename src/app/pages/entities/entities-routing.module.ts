@@ -6,6 +6,7 @@ import { CountriesListComponent } from './countries-list/countries-list.componen
 import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
 import { IndicatorValuesListComponent } from './indicator-values-list/indicator-values-list.component';
 import { VocabulariesListComponent } from './vocabularies-list/vocabularies-list.component';
+import { TermsListComponent } from './terms-list/terms-list.component';
 
 const routes: Routes = [{
   path: '',
@@ -26,6 +27,10 @@ const routes: Routes = [{
     {
       path: 'vocabularies',
       component: VocabulariesListComponent,
+    },
+    {
+      path: 'vocabularies/:id/terms',
+      component: TermsListComponent,
     },
   ],
 }];

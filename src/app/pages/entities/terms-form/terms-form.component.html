@@ -1,0 +1,46 @@
+<form [formGroup]="entityForm" (ngSubmit)="onSubmit($event)">
+  <nb-card>
+    <nb-card-header>{{ identifierValue ? 'Edit' : 'Add' }} Vocabulary Value</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="name" class="label">Name</label>
+            <input nbInput id="name" formControlName="name" type="text" class="form-control"
+                   [ngClass]="{'is-invalid': (name.touched || name.dirty) && name.invalid}"
+                   fullWidth required
+            />
+            <div *ngIf="name.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="label" class="label">Label</label>
+            <input nbInput id="label" formControlName="label" type="text" class="form-control"
+                   [ngClass]="{'is-invalid': (label.touched || label.dirty) && label.invalid}"
+                   fullWidth required
+            />
+            <div *ngIf="label.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div *ngIf="vocabulary.value" class="col-12">
+          <div class="form-group">
+            <label class="label">Vocabulary (ID: {{ vocabulary.value.id }})</label>
+            <div>
+              {{ vocabulary.value.label }}
+            </div>
+            <div *ngIf="vocabulary.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+      </div>
+
+    </nb-card-body>
+    <nb-card-footer class="d-flex flex-row">
+      <button nbButton status="danger" type="button" (click)="onDialogDismiss()">Cancel</button>
+      <button nbButton status="primary" type="submit" class="ml-auto"
+              [disabled]="!(entityForm.valid && entityForm.dirty)">
+        Save
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</form>

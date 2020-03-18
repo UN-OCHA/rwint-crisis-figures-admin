@@ -20,6 +20,8 @@ import {
   CountryService,
   IndicatorService,
   IndicatorValueService,
+  VocabularyService,
+  TermService,
 } from './api';
 
 const socialLinks = [
@@ -103,6 +105,8 @@ export const NB_CORE_PROVIDERS = [
   CountryService,
   IndicatorService,
   IndicatorValueService,
+  VocabularyService,
+  TermService,
 ];
 
 @NgModule({
