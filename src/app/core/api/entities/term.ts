@@ -18,6 +18,9 @@ export class Term extends Entity {
   @JsonProperty('label', String)
   label: string = undefined;
 
+  @JsonProperty('value', Any, true) // Optional property
+  value: string = undefined;
+
   @JsonProperty('vocabulary', Any, true) // Optional property
   vocabulary: Vocabulary = undefined;
 
