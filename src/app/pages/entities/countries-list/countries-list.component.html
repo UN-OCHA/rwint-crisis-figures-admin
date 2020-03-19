@@ -23,6 +23,7 @@
       [offset]="pagination?.offset"
       [limit]="pagination?.pageSize"
       (page)="setListPage($event)"
+      (sort)="onSort($event)"
     >
       <ngx-datatable-column
         [width]="90"
