@@ -5,6 +5,16 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
+            <label for="label" class="label">Label</label>
+            <input nbInput id="label" formControlName="label" type="text" class="form-control"
+                   [ngClass]="{'is-invalid': (label.touched || label.dirty) && label.invalid}"
+                   fullWidth required
+            />
+            <div *ngIf="label.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="form-group">
             <label for="name" class="label">Name</label>
             <input nbInput id="name" formControlName="name" type="text" class="form-control"
                    [ngClass]="{'is-invalid': (name.touched || name.dirty) && name.invalid}"
@@ -13,14 +23,13 @@
             <div *ngIf="name.errors?.required" class="invalid-feedback">Required.</div>
           </div>
         </div>
-        <div class="col-12">
+        <div class="col-4">
           <div class="form-group">
-            <label for="label" class="label">Label</label>
-            <input nbInput id="label" formControlName="label" type="text" class="form-control"
-                   [ngClass]="{'is-invalid': (label.touched || label.dirty) && label.invalid}"
-                   fullWidth required
-            />
-            <div *ngIf="label.errors?.required" class="invalid-feedback">Required.</div>
+            <label for="name" class="label"></label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" id="enable-name-edit" class="custom-control-input" [defaultChecked]="enableManualNameEntry" (change)="onNameEditCheckboxChange($event)" />
+            <label for="enable-name-edit" class="custom-control-label">Edit "Name" manually.</label>
           </div>
         </div>
       </div>
