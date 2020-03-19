@@ -5,6 +5,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Countries',
     icon: 'globe-2-outline',
     link: '/pages/entities/countries',
+    queryParams: {
+      'srt': 'name,asc'
+    },
     home: true,
   },
   {
