@@ -37,7 +37,8 @@
           <button nbButton ghost title="Edit" size="tiny" status="info" class="p-0" (click)="showEntityForm(row)">
             <nb-icon icon="edit-outline" pack="eva"></nb-icon>
           </button>
-          <a nbButton ghost title="List Values" size="tiny" status="info" class="p-0 ml-2" [routerLink]="row.id + '/values'">
+          <a nbButton ghost title="List Values" size="tiny" status="info" class="p-0 ml-2"
+             [routerLink]="row.id + '/values'" [queryParams]="{'srt': 'date,desc'}">
             <nb-icon icon="file-text-outline" pack="eva"></nb-icon>
           </a>
         </ng-template>
