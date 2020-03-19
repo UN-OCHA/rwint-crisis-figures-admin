@@ -3,6 +3,7 @@ import { HttpParams } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { BaseEntityService } from '@core/api/services/base-entity.service';
+import { BaseComponent } from '@pages/entities/base.component';
 import { Entity } from '@core/api/entities/entity';
 import { AutocompleteFormatDelegate, AutocompleteSearchDelegate, EntityConstructor } from '@core/api/types';
 import { isValidEntityId } from '@core/utils/entity.util';
@@ -16,6 +17,7 @@ export enum FormMode {
  * Base component of entities forms.
  */
 export abstract class EntitiesFormComponent<T extends Entity>
+  extends BaseComponent
   implements OnInit, OnDestroy, AutocompleteFormatDelegate<T> {
 
   @Input()
@@ -44,6 +46,7 @@ export abstract class EntitiesFormComponent<T extends Entity>
 
   /** Constructor */
   protected constructor(injector: Injector) {
+    super(injector);
     this.toastr = injector.get(NbToastrService);
   }
 
