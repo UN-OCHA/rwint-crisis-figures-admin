@@ -1,3 +1,4 @@
+import { default as slugifyJs } from 'slugify';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import { EntityConstructor } from '@core/api/types';
@@ -69,4 +70,20 @@ export function isIri(iri: any): boolean {
 export function idFromIri(iri: string): number | null {
   const id = parseInt(iri.substring(iri.lastIndexOf('/') + 1), 10);
   return isFinite(id) ? id : null;
+}
+
+/**
+ * Convert a string into its slugified form. For example, the slug form of
+ * `COVID19 can be fatal` is `covid19_can_be_fatal`.
+ *
+ *
+ * @param text The string to slugify
+ * @param separator An optional separator to override the default separator `_`
+ * @return The slugified string
+ */
+export function slugify(text: string, separator: string = '_'): string {
+  return slugifyJs(text, {
+    replacement: separator,
+    lower: true,
+  });
 }
