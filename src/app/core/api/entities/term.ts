@@ -12,7 +12,7 @@ export class Term extends Entity {
   @JsonProperty('id', Any, true) // Type can be ignored or set to `Any` for optional properties.
   id: number = undefined;
 
-  @JsonProperty('name', Number)
+  @JsonProperty('name', String)
   name: number | string = undefined;
 
   @JsonProperty('label', String)
