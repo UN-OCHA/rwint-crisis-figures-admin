@@ -1,4 +1,4 @@
-import { Injector, Input, OnDestroy, OnInit } from '@angular/core';
+import { Injector, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
@@ -16,7 +16,7 @@ export enum FormMode {
 /**
  * Base component of entities forms.
  */
-export abstract class EntitiesFormComponent<T extends Entity>
+export class EntitiesFormComponent<T extends Entity>
   extends BaseComponent
   implements OnInit, OnDestroy, AutocompleteFormatDelegate<T> {
 
@@ -45,7 +45,7 @@ export abstract class EntitiesFormComponent<T extends Entity>
   protected filters: HttpParams = new HttpParams();
 
   /** Constructor */
-  protected constructor(injector: Injector) {
+  constructor(@Optional() injector?: Injector) {
     super(injector);
     this.toastr = injector.get(NbToastrService);
   }
@@ -165,5 +165,12 @@ export abstract class EntitiesFormComponent<T extends Entity>
 
   // // //  Abstracts
 
-  abstract getEntityConstructor(): EntityConstructor<T>;
+  /**
+   * A hook for subclasses to return their EntityConstructor.
+   *
+   * @return EntityConstructor
+   */
+  getEntityConstructor(): EntityConstructor<T> {
+    throw new Error('This class is missing the implementation of `getEntityConstructor()`.');
+  }
 }

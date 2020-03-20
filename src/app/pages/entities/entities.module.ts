@@ -17,6 +17,7 @@ import { ThemeModule } from '@theme/theme.module';
 import { EntitiesRoutingModule, routedComponents } from './entities-routing.module';
 import { BaseComponent } from '@pages/entities/base.component';
 import { EntitiesListComponent } from './entities-list.component';
+import { EntitiesFormComponent } from './entities-form.component';
 import { CountriesListComponent } from './countries-list/countries-list.component';
 import { CountriesFormComponent } from './countries-form/countries-form.component';
 import { IndicatorsListComponent } from './indicators-list/indicators-list.component';
@@ -56,6 +57,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ...routedComponents,
     BaseComponent,
     EntitiesListComponent,
+    EntitiesFormComponent,
     CountriesListComponent,
     CountriesFormComponent,
     IndicatorsListComponent,

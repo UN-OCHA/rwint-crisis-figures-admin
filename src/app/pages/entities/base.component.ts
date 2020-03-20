@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit, Optional } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -11,7 +11,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   protected router: Router;
   protected route: ActivatedRoute;
 
-  constructor(injector: Injector) {
+  constructor(@Optional() injector?: Injector) {
     this.injector = injector;
     this.router = injector.get(Router);
     this.route = injector.get(ActivatedRoute);
