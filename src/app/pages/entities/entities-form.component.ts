@@ -163,8 +163,6 @@ export class EntitiesFormComponent<T extends Entity>
     return entity.toString();
   }
 
-  // // //  Abstracts
-
   /**
    * A hook for subclasses to return their EntityConstructor.
    *
