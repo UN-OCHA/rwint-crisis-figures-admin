@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     //width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+    margin-right: auto;
   }
 
   nb-action {
@@ -23,6 +24,24 @@
     cursor: pointer;
   }
 
+  ::ng-deep .toolbar {
+    nb-menu {
+      .menu-items {
+        display: flex;
+        flex-direction: row;
+
+        .menu-item {
+          border: none;
+
+          a {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+    }
+  }
+
   ::ng-deep nb-search button {
     padding: 0!important;
   }
@@ -30,7 +49,7 @@
   .header-container {
     display: flex;
     align-items: center;
-    width: auto;
+    width: 100%;
 
     .sidebar-toggle {
       @include nb-ltr(padding-right, 1.25rem);
