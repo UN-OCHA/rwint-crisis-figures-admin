@@ -6,7 +6,7 @@ import { EntityConstructor } from '@core/api/types';
 import { Indicator } from '@core/api/entities/indicator';
 import { IndicatorValue } from '@core/api/entities/indicator-value';
 import { Country } from '@core/api/entities/country';
-import { EntitiesListComponent } from '@pages/entities/entities-list.component';
+import { EntitiesGridComponent } from '@pages/entities/entities-grid.component';
 import { IndicatorsFormComponent } from '@pages/entities/indicators-form/indicators-form.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { IndicatorsFormComponent } from '@pages/entities/indicators-form/indicat
   templateUrl: './indicators-list.component.html',
   styleUrls: ['./indicators-list.component.scss'],
 })
-export class IndicatorsListComponent extends EntitiesListComponent<Indicator> implements OnInit {
+export class IndicatorsListComponent extends EntitiesGridComponent<Indicator> implements OnInit {
 
   /** Embed countries and latest values in list response */
   requiredFilters = {

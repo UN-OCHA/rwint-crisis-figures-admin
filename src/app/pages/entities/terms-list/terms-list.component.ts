@@ -4,7 +4,7 @@ import isNumber from 'lodash/isNumber';
 import { TermService, VocabularyService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { Term } from '@core/api/entities/term';
-import { EntitiesListComponent } from '@pages/entities/entities-list.component';
+import { EntitiesGridComponent } from '@pages/entities/entities-grid.component';
 import { TermsFormComponent } from '@pages/entities/terms-form/terms-form.component';
 import { idFromIri, isIri } from '@core/utils/entity.util';
 import { HttpParams } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { Vocabulary } from '@core/api/entities/vocabulary';
   templateUrl: './terms-list.component.html',
   styleUrls: ['./terms-list.component.scss'],
 })
-export class TermsListComponent extends EntitiesListComponent<Term> implements OnInit {
+export class TermsListComponent extends EntitiesGridComponent<Term> implements OnInit {
 
   /** Related `Vocabulary` instance */
   vocabulary?: Vocabulary;

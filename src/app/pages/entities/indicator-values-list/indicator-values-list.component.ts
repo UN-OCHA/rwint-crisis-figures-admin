@@ -4,7 +4,7 @@ import isNumber from 'lodash/isNumber';
 import { IndicatorValueService, IndicatorService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { IndicatorValue } from '@core/api/entities/indicator-value';
-import { EntitiesListComponent } from '@pages/entities/entities-list.component';
+import { EntitiesGridComponent } from '@pages/entities/entities-grid.component';
 import { IndicatorValuesFormComponent } from '@pages/entities/indicator-values-form/indicator-values-form.component';
 import { idFromIri, isIri } from '@core/utils/entity.util';
 import { HttpParams } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { Indicator } from '@core/api/entities/indicator';
   templateUrl: './indicator-values-list.component.html',
   styleUrls: ['./indicator-values-list.component.scss'],
 })
-export class IndicatorValuesListComponent extends EntitiesListComponent<IndicatorValue> implements OnInit {
+export class IndicatorValuesListComponent extends EntitiesGridComponent<IndicatorValue> implements OnInit {
 
   /** Related `Indicator` instance */
   indicator?: Indicator;

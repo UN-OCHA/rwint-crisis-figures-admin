@@ -2,7 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { VocabularyService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { Vocabulary } from '@core/api/entities/vocabulary';
-import { EntitiesListComponent } from '@pages/entities/entities-list.component';
+import { EntitiesGridComponent } from '@pages/entities/entities-grid.component';
 import { VocabulariesFormComponent } from '@pages/entities/vocabularies-form/vocabularies-form.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { VocabulariesFormComponent } from '@pages/entities/vocabularies-form/voc
   templateUrl: './vocabularies-list.component.html',
   styleUrls: ['./vocabularies-list.component.scss'],
 })
-export class VocabulariesListComponent extends EntitiesListComponent<Vocabulary> implements OnInit {
+export class VocabulariesListComponent extends EntitiesGridComponent<Vocabulary> implements OnInit {
 
   /** Embed countries and latest values in list response */
   requiredFilters = {
