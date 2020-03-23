@@ -1,4 +1,4 @@
-import { Injector, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Injector, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
@@ -16,6 +16,7 @@ export enum FormMode {
 /**
  * Base component of entities forms.
  */
+@Component({ template: `` })
 export class EntitiesFormComponent<T extends Entity>
   extends BaseComponent
   implements OnInit, OnDestroy, AutocompleteFormatDelegate<T> {
