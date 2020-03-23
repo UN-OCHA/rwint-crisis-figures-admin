@@ -1,0 +1,71 @@
+@import '~app/theme/styles/themes';
+
+ul.list-group {
+  li {
+    &:first-child {
+      border-top: 0;
+    }
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    border-width: 1px 0px;
+    padding: 0;
+    overflow: hidden;
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 0.25em 0;
+      font-size: 0.8125rem;
+      line-height: 1.5rem;
+      white-space: nowrap;
+      color: nb-theme(text-basic-color);
+
+      &:hover {
+        color: nb-theme(text-primary-color);
+        img {
+          margin-left: 0px;
+        }
+      }
+
+      img {
+        display: flex;
+        height: 15px;
+        width: 24px;
+        margin-left: -21px;
+        transition: margin-left 0.25s;
+      }
+      span {
+        margin-left: 0.5em;
+      }
+    }
+  }
+}
+
+// Simplify list in compacted-sidebar mode
+::ng-deep .menu-sidebar.compacted {
+  .list-filter-form {
+    display: none;
+  }
+
+  ul.list-group {
+    li {
+      border: 0;
+      overflow: visible;
+
+      a {
+        padding: 0.5em 0 !important;
+
+        img {
+          height: 15px;
+          width: 24px;
+          margin-left: -7px !important;
+        }
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}

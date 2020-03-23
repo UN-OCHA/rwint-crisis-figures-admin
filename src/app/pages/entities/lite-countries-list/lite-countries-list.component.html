@@ -1,0 +1,19 @@
+<form [formGroup]="listFilterForm" class="list-filter-form">
+  <div class="form-group">
+    <input nbInput id="name" type="text" formControlName="name" class="form-control"
+           placeholder="Filter countries ..." autocomplete="off" fullWidth/>
+  </div>
+</form>
+
+<ul class="list-group">
+  <li *ngFor="let country of filteredCountries" class="list-group-item">
+    <a title="{{ country.name }}"
+       routerLink="/pages/entities/indicators"
+       [queryParams]="{'srt': 'name,asc', 'flt.country.code': country.code}"
+       class="list-group-item-action">
+      <img src="https://restcountries.eu/data/{{ country.code }}.svg" />
+      <span>{{ country.name }}</span>
+    </a>
+  </li>
+</ul>
+

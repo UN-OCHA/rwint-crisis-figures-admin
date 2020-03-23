@@ -33,6 +33,7 @@ import { VocabulariesFormComponent } from './vocabularies-form/vocabularies-form
 import { TermsListComponent } from './terms-list/terms-list.component';
 import { TermsListFilterComponent } from './terms-list/terms-list-filter.component';
 import { TermsFormComponent } from './terms-form/terms-form.component';
+import { LiteCountriesListComponent } from './lite-countries-list/lite-countries-list.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -74,6 +75,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TermsListComponent,
     TermsListFilterComponent,
     TermsFormComponent,
+    LiteCountriesListComponent,
   ],
   entryComponents: [
     CountriesListComponent,
@@ -86,6 +88,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     VocabulariesFormComponent,
     TermsListComponent,
     TermsFormComponent,
+  ],
+  exports: [
+    LiteCountriesListComponent,
   ],
 })
 export class EntitiesModule { }
