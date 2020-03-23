@@ -12,6 +12,7 @@ import { Component } from '@angular/core';
       </nb-layout-header>
 
       <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive>
+        <ng-content select="ngx-lite-countries-list"></ng-content>
       </nb-sidebar>
 
       <nb-layout-column>
