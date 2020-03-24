@@ -22,6 +22,7 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
   // Props
   ColumnMode = ColumnMode;
   requiredFilters: Params = {};
+  gridSorts: any = [];
 
   /** Constructor */
   constructor(injector: Injector) {
@@ -74,6 +75,15 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
       ...filters,
       ...this.requiredFilters,
     });
+  }
+
+  /** @override **/
+  setListSort(sorts: Params) {
+    super.setListSort(sorts);
+
+    // Generate an array of sorting descriptors for `ngx-datatable` in order to display sorting
+    // direction indicators in grid headers.
+    this.gridSorts = Object.entries(this.sorts).map(([prop, dir]) => ({prop, dir}));
   }
 
   /**

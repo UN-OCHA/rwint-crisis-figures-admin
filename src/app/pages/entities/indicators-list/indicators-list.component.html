@@ -20,6 +20,8 @@
       [headerHeight]="50"
       [footerHeight]="50"
       [externalPaging]="true"
+      [externalSorting]="true"
+      [sorts]="gridSorts"
       [count]="pagination?.totalItems"
       [offset]="pagination?.offset"
       [limit]="pagination?.pageSize"
@@ -47,7 +49,7 @@
       <ngx-datatable-column name="Id" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column name="Name" [sortable]="true"></ngx-datatable-column>
       <ngx-datatable-column name="Organization" [sortable]="true"></ngx-datatable-column>
-      <ngx-datatable-column name="Country" prop="country.name" [sortable]="true">
+      <ngx-datatable-column *ngIf="!country" name="Country" prop="country.name" [sortable]="true">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ row.country?.name }}
         </ng-template>
@@ -55,6 +57,11 @@
       <ngx-datatable-column name="Latest Value" [sortable]="false">
         <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
           {{ (row.values?.length && row.values[0]) ? row.values[0].value : '' }}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Latest Update" [sortable]="false">
+        <ng-template let-column="column" let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{ (row.values?.length && row.values[0]) ? (row.values[0].date | date:'yyyy-MM-dd') : '' }}
         </ng-template>
       </ngx-datatable-column>
 
