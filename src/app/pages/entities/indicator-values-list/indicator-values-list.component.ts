@@ -60,17 +60,6 @@ export class IndicatorValuesListComponent extends EntitiesGridComponent<Indicato
   }
 
   /** @override */
-  protected preprocessList(list: IndicatorValue[]): IndicatorValue[] {
-    return super.preprocessList(list).map(indicatorValue => {
-      // Add commas to numerical value
-      indicatorValue.value = indicatorValue.value.toLocaleString();
-      // Format date for display in listings
-      indicatorValue.date = moment(indicatorValue.date).format('YYYY-MM-DD');
-      return indicatorValue;
-    });
-  }
-
-  /** @override */
   protected buildEntityFormDialogContext(entity?: IndicatorValue): any {
     const context = super.buildEntityFormDialogContext(entity);
     if (this.indicator) {
