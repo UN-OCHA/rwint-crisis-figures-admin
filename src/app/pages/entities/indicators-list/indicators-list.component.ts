@@ -22,6 +22,11 @@ export class IndicatorsListComponent extends EntitiesGridComponent<Indicator> im
     'preset': 'latest',
   };
 
+  /** Always sort grid by `weight` in descending order */
+  requiredSorts = {
+    'weight': 'asc',
+  };
+
   /** Related `Country` instance used in filtering (if any) */
   country?: Country;
 
