@@ -37,6 +37,16 @@
             <div *ngIf="country.errors?.required" class="invalid-feedback">Required.</div>
           </div>
         </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label for="weight" class="label">Weight</label>
+            <input nbInput id="weight" formControlName="weight" type="text" class="form-control"
+                   [ngClass]="{'is-invalid': (weight.touched || weight.dirty) && weight.invalid}"
+                   fullWidth required pattern="-?[0-9]+"
+            />
+            <div *ngIf="weight.errors?.required" class="invalid-feedback">Required.</div>
+          </div>
+        </div>
       </div>
     </nb-card-body>
     <nb-card-footer class="d-flex flex-row">

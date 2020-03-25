@@ -2,6 +2,7 @@ import { Component, ElementRef, Injector, Input, OnDestroy, OnInit, Renderer2, V
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
 import isObject from 'lodash/isObject';
+import isString from 'lodash/isString';
 import { EntitiesFormComponent } from '@pages/entities/entities-form.component';
 import { Country } from '@core/api/entities/country';
 import { Indicator } from '@core/api/entities/indicator';
@@ -43,6 +44,7 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
       'name': ['', Validators.required],
       'organization': ['', Validators.required],
       'country': ['', Validators.required],
+      'weight': ['0', Validators.required],
     });
   }
 
@@ -65,6 +67,9 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
   get country() {
     return this.entityForm.get('country');
   }
+  get weight() {
+    return this.entityForm.get('weight');
+  }
 
   // // //
 
@@ -73,6 +78,11 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
     const values = super.normalizeFormValues();
     if (isObject(values.country) && values.country.code) {
       values.country = generateIri(Country, values.country.code);
+    }
+
+    // Convert the `weight` property to a number if passed as a string
+    if (isString(values.weight)) {
+      values.weight = Number(values.weight);
     }
     return values;
   }

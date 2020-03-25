@@ -64,6 +64,11 @@
           {{ (row.values?.length && row.values[0]) ? (row.values[0].date | date:'yyyy-MM-dd') : '' }}
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column name="Weight" headerClass="weight" [sortable]="false">
+        <ng-template let-column="column" let-row="row" let-value="value" style="text-align: right" ngx-datatable-cell-template>
+          {{ value }}
+        </ng-template>
+      </ngx-datatable-column>
 
       <ngx-datatable-column
         [width]="50"

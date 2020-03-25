@@ -19,6 +19,9 @@ export class Indicator extends Entity {
   @JsonProperty('organization', String)
   organization: string = undefined;
 
+  @JsonProperty('weight', Number)
+  weight: number = 0;
+
   @JsonProperty('country', Any)
   country: Country = undefined;
 
