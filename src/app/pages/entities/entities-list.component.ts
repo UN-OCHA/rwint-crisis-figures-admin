@@ -86,7 +86,7 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
     // Combine new filters with the required ones
     this.sorts = { ...sorts };
 
-    // Assign list request parameters from filters
+    // Assign list request parameters from sorts
     Object.entries(this.sorts).forEach(([key, val]) => {
       this.listRequestParams = this.listRequestParams.set(`order[${key}]`, val);
     });
