@@ -87,7 +87,7 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
 
     // Generate an array of sorting descriptors for `ngx-datatable` in order to display sorting
     // direction indicators in grid headers.
-    this.gridSorts = Object.entries(sorts).map(([prop, dir]) => ({prop, dir}));
+    this.gridSorts = Object.entries(this.sorts).map(([prop, dir]) => ({prop, dir}));
   }
 
   /**
@@ -167,6 +167,7 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
    * A handler of ngx-datatable's `sort` event. This is triggered
    * when the user taps on a column header for sorting purposes.
    *
+   *
    * The event results in updating the router's query parameters,
    * which in turn reloads the page so the list can have the new
    * sorting properties applied.
@@ -177,11 +178,20 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
    * }]}
    */
   onSort({sorts}) {
-    const {dir, prop} = sorts[0];
-    this.router.navigate([], {
-      queryParams: { [EntitiesGridComponent.SORT_KEY]: `${prop},${dir}` },
-      queryParamsHandling: 'merge',
-    });
+    // Datatable passes in all the properties being sorted by at the
+    // time when the user taps on a column header to change its sorting
+    // direction. However, `requiredSorts` should only be part of the
+    // API query and not make it to the page's query string. Hence, they
+    // are stripped out.
+    const requiredSortsKeys = Object.keys(this.requiredSorts);
+    const sortVector: any = (sorts as any[]).filter(({prop}) => requiredSortsKeys.indexOf(prop) === -1)[0];
+
+    if (sortVector) {
+      this.router.navigate([], {
+        queryParams: { [EntitiesGridComponent.SORT_KEY]: `${sortVector.prop},${sortVector.dir}` },
+        queryParamsHandling: 'merge',
+      });
+    }
   }
 
   /**
