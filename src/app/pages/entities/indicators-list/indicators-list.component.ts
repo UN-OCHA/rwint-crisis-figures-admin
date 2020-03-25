@@ -4,7 +4,6 @@ import isString from 'lodash/isString';
 import { CountryService, IndicatorService } from '@core/api';
 import { EntityConstructor } from '@core/api/types';
 import { Indicator } from '@core/api/entities/indicator';
-import { IndicatorValue } from '@core/api/entities/indicator-value';
 import { Country } from '@core/api/entities/country';
 import { EntitiesGridComponent } from '@pages/entities/entities-grid.component';
 import { IndicatorsFormComponent } from '@pages/entities/indicators-form/indicators-form.component';
