@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { ResponseContext } from '@core/api/services/response-context';
 import { Observable } from 'rxjs';
 
@@ -50,7 +51,9 @@ export interface AutocompleteSearchDelegate<T> {
    * Use the stream of search terms `text$` to fetch a list of candidate entities for an auto-complete field.
    *
    * @param text$ Observable<string> Each emitted string represents a change in the search text entered by the user.
+   * @param searchProperty string An optional property to search by.
+   * @param httpParams Optional HTTP parameters to apply to the list request.
    * @return An Observable that emits a list of entities in response to changes in the `text$` stream.
    */
-  acSearch(text$: Observable<string>): Observable<readonly T[]>;
+  acSearch(text$: Observable<string>, searchProperty?: string, httpParams?: HttpParams): Observable<readonly T[]>;
 }

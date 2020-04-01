@@ -231,22 +231,30 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
   // // //  AutocompleteSearchDelegate implementation
 
   /** @override */
-  acSearch(text$: Observable<string>): Observable<readonly T[]> {
-    if (this.primarySearchProperty) {
-      const filters = new HttpParams();
+  acSearch(text$: Observable<string>,
+           searchProperty?: string,
+           httpParams?: HttpParams): Observable<readonly T[]> {
+    // Default to the `primarySearchProperty` if no custom `searchProperty` is provided.
+    const property = searchProperty || this.primarySearchProperty;
+
+    if (property) {
+      if (!httpParams) {
+        httpParams = new HttpParams();
+      }
+
       return text$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        filter(term => term.length >= 2),
-        switchMap(term =>
-          this.list(filters.set(this.primarySearchProperty, term)).pipe(
+        filter(phrase => phrase.length >= 2),
+        switchMap(phrase =>
+          this.list(httpParams.set(property, phrase)).pipe(
             map(responseContext => responseContext.body),
           ),
         ),
       );
     } else {
-      // Did you forget to set the (primarySearchProperty) in the target entity service?
-      throw throwError('Entity does not support auto-complete.');
+      // Did you forget to set a property to search by?
+      throw throwError('No search property is provided.');
     }
   }
 }
