@@ -2,6 +2,7 @@ import { Any, JsonObject, JsonProperty } from 'json2typescript';
 import { Entity } from '@core/api/entities/entity';
 import { Country } from '@core/api/entities/country';
 import { IndicatorValue } from './indicator-value';
+import { Term } from '@core/api/entities/term';
 
 /**
  * Indicator entity.
@@ -27,6 +28,9 @@ export class Indicator extends Entity {
 
   @JsonProperty('values', Any, true)
   values: IndicatorValue[] = undefined;
+
+  @JsonProperty('terms', Any, true)
+  terms: Term[] = [];
 
   /** @override */
   toString(): string {
