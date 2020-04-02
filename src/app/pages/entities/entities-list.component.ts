@@ -20,6 +20,8 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
   pagination: Pagination = new Pagination();
   filters: Params;
   sorts: Params;
+  requiredFilters: Params = {};
+  requiredSorts: Params = {};
 
   /** Constructor */
   constructor(injector: Injector) {
@@ -38,17 +40,17 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    * @param filters
    * @param paginator
    */
-  protected updateList(filters?: Params, sorts?: Params, paginator?: {offset: number}) {
+  protected setRequestParams(filters?: Params, sorts?: Params, paginator?: {offset: number}) {
     // Reset the request params in order to repopulate them
     if (filters || sorts || paginator || !this.listRequestParams || this.listRequestParams.keys().length > 0) {
       this.listRequestParams = new HttpParams();
     }
 
-    if (filters && filters !== this.filters) {
+    if ((filters && filters !== this.filters) || Object.keys(this.requiredFilters).length > 0) {
       this.setListFilter(filters);
     }
 
-    if (sorts && sorts !== this.sorts) {
+    if ((sorts && sorts !== this.sorts) || Object.keys(this.requiredSorts).length > 0) {
       this.setListSort(sorts);
     }
 
@@ -63,7 +65,11 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    * @param filters
    */
   protected setListFilter(filters: Params) {
-    this.filters = { ...filters };
+    // Combine new filters with the required ones
+    this.filters = {
+      ...filters,
+      ...this.requiredFilters,
+    };
 
     // Assign list request parameters from filters
     Object.entries(this.filters).forEach(([key, val]) => {
@@ -84,7 +90,10 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    */
   setListSort(sorts: Params) {
     // Combine new filters with the required ones
-    this.sorts = { ...sorts };
+    this.sorts = {
+      ...this.requiredSorts,
+      ...sorts,
+    };
 
     // Assign list request parameters from sorts
     Object.entries(this.sorts).forEach(([key, val]) => {
