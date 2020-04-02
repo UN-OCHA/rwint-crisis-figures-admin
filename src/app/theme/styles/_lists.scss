@@ -7,4 +7,78 @@
     margin-right: 0;
     margin-left: 0;
   }
+
+  // // // Lite List
+
+  ul.lite-list {
+    display: flex;
+    flex: 1 auto;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    background-color: nb-theme(background-basic-color-2);
+    border-radius: nb-theme(border-radius);
+
+    & > li {
+      &:first-child {
+        border-top: 0;
+      }
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      border-width: 1px 0px;
+      border-color: nb-theme(border-basic-color-3);
+      padding: 0;
+      overflow: hidden;
+
+      & > a, & > div {
+        display: flex;
+        align-items: center;
+        padding: 0.25em 0;
+        font-size: 0.8125rem;
+        line-height: 1.5rem;
+        white-space: nowrap;
+        color: nb-theme(text-basic-color);
+
+        &:hover {
+          color: nb-theme(text-primary-color);
+          img {
+            margin-left: 0px;
+          }
+        }
+
+        & > img {
+          display: flex;
+          height: 15px;
+          width: 24px;
+          margin-left: -21px;
+          transition: margin-left 0.25s;
+        }
+        & > span {
+          margin-left: 0.5em;
+        }
+      }
+    }
+
+    &[dnddropzone] {
+      &.dndDragover {
+        background-color: transparentize(nb-theme(color-warning-transparent-600), 0.4);
+      }
+
+      & > li {
+        cursor: move;
+      }
+
+      & > li[dndplaceholderref] {
+        padding: 0.25em 0;
+        border: 1px dashed nb-theme(color-warning-default);
+        background-color: nb-theme(color-warning-transparent-600);
+      }
+
+      & > li.dndDraggingSource {
+        display: none;
+      }
+    }
+  }
 }
