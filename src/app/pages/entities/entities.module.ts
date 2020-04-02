@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DndModule } from 'ngx-drag-drop';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -40,6 +41,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     ReactiveFormsModule,
+    DndModule,
     ThemeModule,
     NbActionsModule,
     NbButtonModule,
