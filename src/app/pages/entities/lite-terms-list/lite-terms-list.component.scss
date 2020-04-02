@@ -1,0 +1,12 @@
+@import '~app/theme/styles/themes';
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+ul.lite-list {
+  & > li {
+    cursor: move;
+  }
+}

@@ -35,6 +35,7 @@ import { TermsListComponent } from './terms-list/terms-list.component';
 import { TermsListFilterComponent } from './terms-list/terms-list-filter.component';
 import { TermsFormComponent } from './terms-form/terms-form.component';
 import { LiteCountriesListComponent } from './lite-countries-list/lite-countries-list.component';
+import { LiteTermsListComponent } from './lite-terms-list/lite-terms-list.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -78,6 +79,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TermsListFilterComponent,
     TermsFormComponent,
     LiteCountriesListComponent,
+    LiteTermsListComponent,
   ],
   entryComponents: [
     CountriesListComponent,
