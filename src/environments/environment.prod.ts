@@ -7,7 +7,7 @@ export const environment: any = {
   production: true,
   // API
   api: {
-    baseUrl: 'https://api-cri-figs.tierx.dev',
+    baseUrl: 'https://rw-crisisfigures-api.innovation.ahconu.org',
     defaultHeaders: {
       'Content-Type': 'application/ld+json',
     },
