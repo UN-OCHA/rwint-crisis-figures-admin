@@ -1,9 +1,17 @@
 <form [formGroup]="entityForm" (ngSubmit)="onSubmit($event)">
   <nb-card>
-    <nb-card-header>{{ identifierValue ? 'Edit' : 'Add' }} Indicator</nb-card-header>
+    <nb-card-header>
+      <span class="title">{{ identifierValue ? 'Edit' : 'Add' }} Indicator</span>
+      <span class="flex-layout-trigger">
+        <button nbButton ghost type="button" size="tiny" status="primary" (click)="onTrigger()">
+          <span>{{ isFlexiLayoutOpen ? 'Hide': 'Show' }} all Terms</span>
+          <nb-icon [icon]="isFlexiLayoutOpen ? 'arrow-ios-forward-outline' : 'menu-arrow-outline'"></nb-icon>
+        </button>
+      </span>
+    </nb-card-header>
     <nb-card-body>
-      <div class="row">
-        <div class="col-12">
+      <ngx-flexi-three-columns-layout [isOpen]="isFlexiLayoutOpen">
+        <div class="column-1">
           <div class="form-group">
             <label for="name" class="label">Name</label>
             <input nbInput id="name" formControlName="name" type="text" class="form-control"
@@ -12,8 +20,6 @@
             />
             <div *ngIf="name.errors?.required" class="invalid-feedback">Required.</div>
           </div>
-        </div>
-        <div class="col-12">
           <div class="form-group">
             <label for="organization" class="label">Organization</label>
             <input nbInput id="organization" formControlName="organization" type="text" class="form-control"
@@ -22,8 +28,6 @@
             />
             <div *ngIf="organization.errors?.required" class="invalid-feedback">Required.</div>
           </div>
-        </div>
-        <div class="col-12">
           <div class="form-group">
             <label for="country" class="label">Country</label>
             <input nbInput id="country" formControlName="country" type="text" class="form-control"
@@ -36,8 +40,6 @@
             />
             <div *ngIf="country.errors?.required" class="invalid-feedback">Required.</div>
           </div>
-        </div>
-        <div class="col-12">
           <div class="form-group">
             <label for="weight" class="label">Weight</label>
             <input nbInput id="weight" formControlName="weight" type="text" class="form-control"
@@ -47,7 +49,38 @@
             <div *ngIf="weight.errors?.required" class="invalid-feedback">Required.</div>
           </div>
         </div>
-      </div>
+        <div class="column-2">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="label" for="terms">Terms</label>
+                <ul id="terms"
+                    class="related-terms-list list-group lite-list"
+                    dndDropzone
+                    dndEffectAllowed="copyMove"
+                    (dndDrop)="onDrop($event)">
+<!--                  <li dndPlaceholderRef class="dnd-placeholder"></li>-->
+                  <li *ngFor="let term of terms.value"
+                      class="list-group-item"
+                      dndEffectAllowed="all"
+                      [dndDraggable]="term"
+                      (dndLinked)="onDragged($event, term, 'link')"
+                      (dndCopied)="onDragged($event, term, 'copy')"
+                      (dndMoved)="onDragged($event, term, 'move')"
+                      (dndCanceled)="onDragged($event, term, 'none')">
+                    <div class="list-group-item-action">
+                      <span>{{ term.label }}</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column-3"><!-- Hide until form is enabled -->
+          <ngx-lite-terms-list></ngx-lite-terms-list>
+        </div>
+      </ngx-flexi-three-columns-layout>
     </nb-card-body>
     <nb-card-footer class="d-flex flex-row">
       <button nbButton status="danger" type="button" (click)="onDialogDismiss()">Cancel</button>

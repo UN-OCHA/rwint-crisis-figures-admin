@@ -1,0 +1,47 @@
+@import '~app/theme/styles/themes';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-width: 75vw;
+}
+
+nb-card-header {
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-right: auto;
+  }
+}
+
+form {
+  height: 100%;
+
+  nb-card {
+    height: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.column-2 {
+  height: 100%;
+
+  .row {
+    height: 100%;
+
+    .form-group {
+      height: 100%;
+      position: relative;
+      margin-bottom: 0;
+    }
+
+    ul.related-terms-list {
+      border: 1px solid nb-theme(border-basic-color-3);
+    }
+  }
+}
