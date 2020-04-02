@@ -1,0 +1,26 @@
+
+:host {
+  & > .row {
+    position: relative;
+    overflow: hidden;
+
+    & > * {
+      transition: flex-basis, max-width, transform 0.5s;
+    }
+  }
+}
+
+.open-panel {
+  transform: translateX(0%);
+  overflow-y: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.closed-panel {
+  transform: translateX(100%);
+  position: absolute;
+  right: 0;
+}
