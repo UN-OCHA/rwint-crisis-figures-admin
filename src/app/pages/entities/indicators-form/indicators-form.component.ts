@@ -20,8 +20,6 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
   @ViewChild('countryInput', { static: true })
   protected countryInput: ElementRef;
 
-  entityConstructor = Indicator;
-
   /** */
   countryAcSearchDelegate: AutocompleteSearchDelegate<Country>;
 
