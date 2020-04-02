@@ -25,7 +25,7 @@
       [count]="pagination?.totalItems"
       [offset]="pagination?.offset"
       [limit]="pagination?.pageSize"
-      (page)="setListPage($event)"
+      (page)="setListPage($event); this.loadList()"
       (sort)="onSort($event)"
     >
       <ngx-datatable-column

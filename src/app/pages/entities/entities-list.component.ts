@@ -110,7 +110,6 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    */
   setListPage({offset}) {
     this.listRequestParams = this.listRequestParams.set('page', String(offset + 1));
-    this.loadList();
   }
 
   /**

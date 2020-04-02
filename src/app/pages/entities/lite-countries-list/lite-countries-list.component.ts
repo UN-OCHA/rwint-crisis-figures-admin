@@ -41,7 +41,8 @@ export class LiteCountriesListComponent extends EntitiesListComponent<Country> i
   /** @override */
   ngOnInit() {
     super.ngOnInit();
-    this.updateList();
+    this.setRequestParams();
+    this.loadList();
   }
 
   /** @override */
