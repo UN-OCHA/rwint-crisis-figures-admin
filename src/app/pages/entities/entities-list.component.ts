@@ -1,4 +1,4 @@
-import { Component, Injector, OnDestroy, OnInit, Type } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { Params } from '@angular/router';
 import isArray from 'lodash/isArray';
@@ -38,6 +38,7 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    * Update list by optionally setting filtering parameters before setting a list page to load.
    *
    * @param filters
+   * @param sorts
    * @param paginator
    */
   protected setRequestParams(filters?: Params, sorts?: Params, paginator?: {offset: number}) {
@@ -117,7 +118,7 @@ export class EntitiesListComponent<T extends Entity> extends BaseComponent imple
    *
    * @see setListPage
    */
-  protected loadList() {
+  loadList() {
     this.entityService.list(this.listRequestParams).subscribe(responseContext => {
       this.rows = this.preprocessList(responseContext.body);
 
