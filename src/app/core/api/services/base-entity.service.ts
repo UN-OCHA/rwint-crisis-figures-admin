@@ -62,6 +62,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
     const request = new HttpRequest<T>('GET', `${this.baseUrl}/${this.entityPluralName}/${identifier}`, null, {
       headers: this.getRequestHeaders(),
       params: filters,
+      withCredentials: true,
     });
 
     return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
@@ -98,6 +99,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
     const request = new HttpRequest<T>('GET', url, null, {
       headers: this.getRequestHeaders(),
       params: filters,
+      withCredentials: true,
     });
 
     return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
@@ -131,6 +133,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
       isPatch ? 'PATCH' : 'POST',
       `${this.baseUrl}/${this.entityPluralName}${identifierValuePath}`, entity, {
         headers: headers,
+        withCredentials: true,
       },
     );
 
@@ -160,6 +163,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
       'DELETE',
       `${this.baseUrl}/${this.entityPluralName}/${identifierValue}`, null, {
         headers: this.getRequestHeaders(),
+        withCredentials: true,
       },
     );
 
