@@ -62,7 +62,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
     const request = new HttpRequest<T>('GET', `${this.baseUrl}/${this.entityPluralName}/${identifier}`, null, {
       headers: this.getRequestHeaders(),
       params: filters,
-      withCredentials: true,
+      withCredentials: this.shouldIncludeCredentials(),
     });
 
     return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
@@ -99,7 +99,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
     const request = new HttpRequest<T>('GET', url, null, {
       headers: this.getRequestHeaders(),
       params: filters,
-      withCredentials: true,
+      withCredentials: this.shouldIncludeCredentials(),
     });
 
     return this.requestProcessor.dispatch<T>(request, this.entityConstructor).pipe(
@@ -133,7 +133,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
       isPatch ? 'PATCH' : 'POST',
       `${this.baseUrl}/${this.entityPluralName}${identifierValuePath}`, entity, {
         headers: headers,
-        withCredentials: true,
+        withCredentials: this.shouldIncludeCredentials(),
       },
     );
 
@@ -163,7 +163,7 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
       'DELETE',
       `${this.baseUrl}/${this.entityPluralName}/${identifierValue}`, null, {
         headers: this.getRequestHeaders(),
-        withCredentials: true,
+        withCredentials: this.shouldIncludeCredentials(),
       },
     );
 
@@ -180,6 +180,15 @@ export abstract class BaseEntityService<T extends Entity> implements Autocomplet
   protected getRequestHeaders(): HttpHeaders {
     const headers = new HttpHeaders({...environment.api.defaultHeaders});
     return headers;
+  }
+
+  /**
+   * Determine whether the request should include auth credentials.
+   * @return boolean
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+   */
+  protected shouldIncludeCredentials(): boolean {
+    return environment.production === true;
   }
 
   /**
