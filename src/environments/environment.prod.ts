@@ -8,6 +8,7 @@ export const environment: any = {
   // API
   api: {
     baseUrl: 'https://rw-crisisfigures-api.innovation.ahconu.org',
+    withCredentials: true,
     defaultHeaders: {
       'Content-Type': 'application/ld+json',
     },

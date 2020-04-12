@@ -13,6 +13,7 @@ export const environment: any = {
   // API
   api: {
     baseUrl: 'https://localhost:8443',
+    withCredentials: true,
     defaultHeaders: {
       'Content-Type': 'application/ld+json',
     },
