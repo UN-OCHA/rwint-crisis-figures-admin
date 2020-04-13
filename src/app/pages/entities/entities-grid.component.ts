@@ -1,19 +1,30 @@
-import { Component, Injector, OnDestroy, OnInit, Type } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  Injector,
+  OnDestroy,
+  OnInit,
+  Type,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { NbDialogService, NbToastrService } from '@nebular/theme';
-import { ColumnMode } from '@swimlane/ngx-datatable';
+import { NbDialogService, NbSidebarService, NbToastrService } from '@nebular/theme';
+import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
 import { EntitiesListComponent } from '@pages/entities/entities-list.component';
 import { Entity } from '@core/api/entities/entity';
 import { ConfirmDialogComponent } from '@theme/components/confirm-dialog/confirm-dialog.component';
 
 @Component({ template: `` })
 export class EntitiesGridComponent<T extends Entity> extends EntitiesListComponent<T> implements OnInit, OnDestroy {
+  // View elements
+  @ViewChild(DatatableComponent, { static: true }) datatable: DatatableComponent;
 
   // Constants
   static readonly FILTER_KEY_PREFIX = 'flt.';
   static readonly SORT_KEY = 'srt';
 
   // Dependencies
+  protected sidebarService: NbSidebarService;
   protected dialogService: NbDialogService;
   protected toastr: NbToastrService;
   protected route: ActivatedRoute;
@@ -27,10 +38,16 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
   constructor(injector: Injector) {
     super(injector);
     this.dialogService = injector.get(NbDialogService);
+    this.sidebarService = injector.get(NbSidebarService);
     this.toastr = injector.get(NbToastrService);
 
     // Extract filtering properties from route and store them in local filter state
     this.observeRouteChange();
+
+    // Watch sidebar collapse and expansion in order to update the grid layout
+    this.observe(this.sidebarService.onToggle()).subscribe({
+      next: value => setTimeout(() => this.datatable.recalculate()),
+    });
   }
 
   /** @override */
