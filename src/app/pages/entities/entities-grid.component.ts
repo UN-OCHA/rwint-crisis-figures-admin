@@ -97,6 +97,7 @@ export class EntitiesGridComponent<T extends Entity> extends EntitiesListCompone
     return {
       identifierProperty: entity && entity.getIdentifierProperty(),
       identifierValue: entity && entity[entity.getIdentifierProperty()],
+      prepopulatedProps: {},
     };
   }
 
