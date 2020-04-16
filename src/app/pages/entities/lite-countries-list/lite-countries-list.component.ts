@@ -15,6 +15,10 @@ export class LiteCountriesListComponent extends EntitiesListComponent<Country> i
   filteredCountries: Country[];
   /** Filter form instance */
   listFilterForm: FormGroup;
+  /** By default sort by `name` */
+  requiredSorts = {
+    'name': 'asc',
+  };
 
   /** Constructor */
   constructor(injector: Injector,
