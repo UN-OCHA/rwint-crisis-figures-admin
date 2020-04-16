@@ -95,10 +95,14 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
       values.weight = Number(values.weight);
     }
 
+    // Normalize `terms` from objects into IRIs
     if (isArray(values.terms)) {
       const normalizedTerms = values.terms.map(term => generateIri(Term.PLURAL_NAME, term.id));
       values.terms = normalizedTerms;
+    } else { // Otherwise, remove the `terms` property from the request
+      delete values['terms'];
     }
+
     return values;
   }
 
