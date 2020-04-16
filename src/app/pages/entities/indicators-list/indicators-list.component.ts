@@ -68,10 +68,9 @@ export class IndicatorsListComponent extends EntitiesGridComponent<Indicator> im
   /** @override */
   protected buildEntityFormDialogContext(entity?: Indicator): any {
     const context = super.buildEntityFormDialogContext(entity);
+
     if (this.country) {
-      context.prepopulatedProps = {
-        country: this.country,
-      };
+      context.prepopulatedProps.country = this.country;
     }
 
     return context;

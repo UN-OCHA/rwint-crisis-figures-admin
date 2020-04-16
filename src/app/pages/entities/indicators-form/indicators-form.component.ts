@@ -111,7 +111,9 @@ export class IndicatorsFormComponent extends EntitiesFormComponent<Indicator> im
     super.populateForm(entity);
 
     // Set initial values of auto-complete fields
-    this.renderer.setProperty(this.countryInput.nativeElement, 'value', entity.country.name);
+    if (entity.country) {
+      this.renderer.setProperty(this.countryInput.nativeElement, 'value', entity.country.name);
+    }
 
     // Set the `terms` form property from model
     if (entity.terms) {
