@@ -1,4 +1,4 @@
-import { JsonObject, JsonProperty } from 'json2typescript';
+import { Any, JsonObject, JsonProperty } from 'json2typescript';
 import { Entity } from '@core/api/entities/entity';
 
 /**
@@ -8,7 +8,7 @@ import { Entity } from '@core/api/entities/entity';
 export class Country extends Entity {
   static PLURAL_NAME: string = 'countries';
 
-  @JsonProperty('id') // Type can be ignored or set to `Any` for optional properties.
+  @JsonProperty('id', Any, true) // Type can be ignored or set to `Any` for optional properties.
   id: number = undefined;
 
   @JsonProperty('code', String)
